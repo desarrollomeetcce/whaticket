@@ -7,6 +7,7 @@ import Whatsapp from "../models/Whatsapp";
 import ContactCustomField from "../models/ContactCustomField";
 import Message from "../models/Message";
 import Queue from "../models/Queue";
+import Tag from "../models/Tag";
 import WhatsappQueue from "../models/WhatsappQueue";
 import UserQueue from "../models/UserQueue";
 
@@ -25,6 +26,7 @@ const models = [
   ContactCustomField,
   Setting,
   Queue,
+  Tag,
   WhatsappQueue,
   UserQueue
 ];

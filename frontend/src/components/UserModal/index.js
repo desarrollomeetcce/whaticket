@@ -23,6 +23,7 @@ import { i18n } from "../../translate/i18n";
 import api from "../../services/api";
 import toastError from "../../errors/toastError";
 import QueueSelect from "../QueueSelect";
+import StatusSelect from "../StatusSelect";
 import { AuthContext } from "../../context/Auth/AuthContext";
 import { Can } from "../Can";
 
@@ -216,6 +217,16 @@ const UserModal = ({ open, onClose, userId }) => {
 									perform="user-modal:editQueues"
 									yes={() => (
 										<QueueSelect
+											selectedQueueIds={selectedQueueIds}
+											onChange={values => setSelectedQueueIds(values)}
+										/>
+									)}
+								/>
+								<Can
+									role={loggedInUser.profile}
+									perform="user-modal:editQueues"
+									yes={() => (
+										<StatusSelect
 											selectedQueueIds={selectedQueueIds}
 											onChange={values => setSelectedQueueIds(values)}
 										/>

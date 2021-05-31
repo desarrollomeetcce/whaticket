@@ -5,14 +5,14 @@ import * as TagController from "../controllers/TagController";
 
 const tagRoutes = Router();
 
-tagRoutes.get("/queue", isAuth, TagController.index);
+tagRoutes.get("/tag", isAuth, TagController.index);
 
-tagRoutes.post("/queue", isAuth, TagController.store);
+tagRoutes.post("/tag", isAuth, TagController.store);
 
-tagRoutes.get("/queue/:queueId", isAuth, TagController.show);
+tagRoutes.get("/tag/:queueId", isAuth, TagController.show);
 
-tagRoutes.put("/queue/:queueId", isAuth, TagController.update);
+tagRoutes.put("/tag/:queueId", isAuth, TagController.update);
 
-tagRoutes.delete("/queue/:queueId", isAuth, TagController.remove);
+tagRoutes.delete("/tag/:queueId", isAuth, TagController.remove);
 
 export default tagRoutes;

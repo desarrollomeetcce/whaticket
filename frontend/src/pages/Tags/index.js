@@ -24,7 +24,7 @@ import { i18n } from "../../translate/i18n";
 import toastError from "../../errors/toastError";
 import api from "../../services/api";
 import { DeleteOutline, Edit } from "@material-ui/icons";
-import QueueModal from "../../components/QueueModal";
+import TagModal from "../../components/TagModel";
 import { toast } from "react-toastify";
 import ConfirmationModal from "../../components/ConfirmationModal";
 
@@ -99,7 +99,7 @@ const Queues = () => {
 		(async () => {
 			setLoading(true);
 			try {
-				const { data } = await api.get("/queue");
+				const { data } = await api.get("/tag");
 				dispatch({ type: "LOAD_QUEUES", payload: data });
 
 				setLoading(false);
@@ -150,7 +150,7 @@ const Queues = () => {
 
 	const handleDeleteQueue = async queueId => {
 		try {
-			await api.delete(`/queue/${queueId}`);
+			await api.delete(`/tag/${queueId}`);
 			toast.success(i18n.t("Queue deleted successfully!"));
 		} catch (err) {
 			toastError(err);
@@ -173,7 +173,7 @@ const Queues = () => {
 			>
 				{i18n.t("queues.confirmationModal.deleteMessage")}
 			</ConfirmationModal>
-			<QueueModal
+			<TagModal
 				open={queueModalOpen}
 				onClose={handleCloseQueueModal}
 				queueId={selectedQueue?.id}

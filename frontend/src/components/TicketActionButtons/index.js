@@ -32,7 +32,21 @@ const TicketActionButtons = ({ ticket }) => {
 	const ticketOptionsMenuOpen = Boolean(anchorEl);
 	const { user } = useContext(AuthContext);
 
-	const { tickettag } = await api.get("/tag");
+	const { tickettag,setTickettag } =useState([]);
+
+	useEffect(() => {
+		(async () => {
+			
+			try {
+				const { data } = await api.get("/tag");
+				setTickettag(data);
+
+			} catch (err) {
+				toastError(err);
+				
+			}
+		})();
+	}, []);
 
 	const handleOpenTicketOptionsMenu = e => {
 		setAnchorEl(e.currentTarget);

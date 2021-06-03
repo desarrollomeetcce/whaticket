@@ -105,7 +105,7 @@ const TicketActionButtons = ({ ticket }) => {
 						color="primary"
 						onClick={e => handleUpdateTicketStatus(e, "closed", user?.id)}
 					>
-					<select value={this.state.value} 
+					<select value={"etiqueta"} 
 					onChange={(event) => handleUpdateTicketStatus(event, event.target.value, user?.id)}>
 						{ tickettag ? 
 						 tickettag.map((option, index) => (

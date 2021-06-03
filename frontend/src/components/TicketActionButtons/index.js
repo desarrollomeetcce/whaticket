@@ -32,6 +32,8 @@ const TicketActionButtons = ({ ticket }) => {
 	const ticketOptionsMenuOpen = Boolean(anchorEl);
 	const { user } = useContext(AuthContext);
 
+	const { tickettag } = await api.get("/tag");
+
 	const handleOpenTicketOptionsMenu = e => {
 		setAnchorEl(e.currentTarget);
 	};
@@ -89,6 +91,14 @@ const TicketActionButtons = ({ ticket }) => {
 						color="primary"
 						onClick={e => handleUpdateTicketStatus(e, "closed", user?.id)}
 					>
+					<select value={this.state.value} 
+					onChange={(event) => handleUpdateTicketStatus(event, event.target.value, user?.id)}>
+						{ tickettag ? 
+						 tickettag.map((option, index) => (
+							<option key={index} value={option}>{option}</option>
+						  )): "Cargando"
+						}
+					</select>
 						{i18n.t("messagesList.header.buttons.resolve")}
 					</ButtonWithSpinner>
 					<IconButton onClick={handleOpenTicketOptionsMenu}>

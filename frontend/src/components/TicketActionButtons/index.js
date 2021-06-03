@@ -32,13 +32,13 @@ const TicketActionButtons = ({ ticket }) => {
 	const ticketOptionsMenuOpen = Boolean(anchorEl);
 	const { user } = useContext(AuthContext);
 
-	const { tickettag,setTickettag } =useState([]);
+	const { tickettag,setTickettag } =useState(null);
 
 	useEffect(() => {
 		(async () => {
 			
 			try {
-				const { data } = await api.get("/tag");
+				let data = await api.get("/tag");
 				console.log(data);
 				setTickettag(data);
 				
@@ -110,8 +110,8 @@ const TicketActionButtons = ({ ticket }) => {
 					onChange={(event) => handleUpdateTicketStatus(event, event.target.value, user?.id)}>
 						{ tickettag ? 
 						 tickettag.map((option, index) => (
-							<option key={index} value={option}>{option}</option>
-						  )): "Cargando"
+							<option key={index} value={option.name}>{option.name}</option>
+						  )): <option>Cargando</option>
 						}
 					</select>
 						{i18n.t("messagesList.header.buttons.resolve")}

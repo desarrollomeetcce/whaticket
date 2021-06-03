@@ -38,7 +38,7 @@ const TicketActionButtons = ({ ticket }) => {
 		(async () => {
 			
 			try {
-				let data = await api.get("/tag");
+				const {data} = await api.get("/tag");
 				console.log(data);
 				setTickettag(data);
 				

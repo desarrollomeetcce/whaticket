@@ -31,8 +31,7 @@ const TicketActionButtons = ({ ticket }) => {
 	const [loading, setLoading] = useState(false);
 	const ticketOptionsMenuOpen = Boolean(anchorEl);
 	const { user } = useContext(AuthContext);
-
-	const { tickettag,setTickettag } =useState(null);
+	const [ tickettag,setTickettag ] =useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -106,7 +105,14 @@ const TicketActionButtons = ({ ticket }) => {
 						color="primary"
 						onClick={e => handleUpdateTicketStatus(e, "closed", user?.id)}
 					>
-				
+					<select value={"etiqueta"} 
+					onChange={(event) => handleUpdateTicketStatus(event, event.target.value, user?.id)}>
+						{ tickettag ? 
+						 tickettag.map((option, index) => (
+							<option key={index} value={option.name}>{option.name}</option>
+						  )): <option>Cargando</option>
+						}
+					</select>
 						{i18n.t("messagesList.header.buttons.resolve")}
 					</ButtonWithSpinner>
 					<IconButton onClick={handleOpenTicketOptionsMenu}>

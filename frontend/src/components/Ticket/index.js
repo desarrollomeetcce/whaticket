@@ -17,6 +17,7 @@ import api from "../../services/api";
 import { ReplyMessageProvider } from "../../context/ReplyingMessage/ReplyingMessageContext";
 import toastError from "../../errors/toastError";
 
+
 const drawerWidth = 320;
 
 const useStyles = makeStyles(theme => ({
@@ -63,6 +64,8 @@ const Ticket = () => {
 	const [loading, setLoading] = useState(true);
 	const [contact, setContact] = useState({});
 	const [ticket, setTicket] = useState({});
+
+	const [tags, setTags] = useState({});
 
 	useEffect(() => {
 		setLoading(true);
@@ -140,6 +143,8 @@ const Ticket = () => {
 						onClick={handleDrawerOpen}
 					/>
 					<TicketActionButtons ticket={ticket} />
+				
+				/>
 				</TicketHeader>
 				<ReplyMessageProvider>
 					<MessagesList

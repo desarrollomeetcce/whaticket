@@ -269,7 +269,7 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds }) => {
 				onScroll={handleScroll}
 			>
 				<List style={{ paddingTop: 0 }}>
-					{status === "open" && (
+					{status !== "pending" && status !== "closed" && (
 						<ListSubheader className={classes.ticketsListHeader}>
 							<div>
 								{i18n.t("ticketsList.assignedHeader")}

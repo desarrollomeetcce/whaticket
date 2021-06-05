@@ -20,6 +20,7 @@ import { i18n } from "../../translate/i18n";
 import { AuthContext } from "../../context/Auth/AuthContext";
 import { Can } from "../Can";
 import TicketsQueueSelect from "../TicketsQueueSelect";
+import TicketsTagSelect from "../TicketsTagSelect";
 import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -91,7 +92,12 @@ const TicketsManager = () => {
 	const { user } = useContext(AuthContext);
 
 	const userQueueIds = user.queues.map(q => q.id);
+	const userTagIds = user.queues.map(q => q.status);
+
 	const [selectedQueueIds, setSelectedQueueIds] = useState(userQueueIds || []);
+
+	const [selectedTagIds, setSelectedTagIds] = useState(userTagIds || []);
+
 
 	useEffect(() => {
 		if (tab === "search") {
@@ -206,6 +212,12 @@ const TicketsManager = () => {
 					userQueues={user?.queues}
 					onChange={values => setSelectedQueueIds(values)}
 				/>
+				<TicketsTagSelect
+					style={{ marginLeft: 6 }}
+					selectedQueueIds={selectedTagIds}
+					userTags={user?.queues}
+					onChange={values => setSelectedQueueIds(values)}
+				/>
 			</Paper>
 			<TabPanel value={tab} name="open" className={classes.ticketsWrapper}>
 				<TicketsList
@@ -213,7 +225,12 @@ const TicketsManager = () => {
 					showAll={showAllTickets}
 					selectedQueueIds={selectedQueueIds}
 				/>
+			
+			</TabPanel>
+			<TabPanel value={tab} name="pending" className={classes.ticketsWrapper}>
+
 				<TicketsList status="pending" selectedQueueIds={selectedQueueIds} />
+			
 			</TabPanel>
 			<TabPanel value={tab} name="closed" className={classes.ticketsWrapper}>
 				<TicketsList

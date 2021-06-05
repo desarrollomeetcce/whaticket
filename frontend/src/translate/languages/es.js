@@ -201,6 +201,9 @@ const messages = {
 			ticketsQueueSelect: {
 				placeholder: "Linhas",
 			},
+			ticketsTagsSelect: {
+				placeholder: "Etiquetas",
+			},
 			tickets: {
 				toasts: {
 					deleted: "El ticket en el que estabas ha sido borrado.",

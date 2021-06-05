@@ -7,7 +7,7 @@ import { Checkbox, ListItemText } from "@material-ui/core";
 import { i18n } from "../../translate/i18n";
 
 const TicketsTagSelect = ({
-	userQueues,
+	userTags,
 	selectedQueueIds = [],
 	onChange,
 }) => {
@@ -35,20 +35,20 @@ const TicketsTagSelect = ({
 						},
 						getContentAnchorEl: null,
 					}}
-					renderValue={() => i18n.t("ticketsQueueSelect.placeholder")}
+					renderValue={() => i18n.t("ticketsTagsSelect.placeholder")}
 				>
-					{userQueues?.length > 0 &&
-						userQueues.map(queue => (
-							<MenuItem dense key={queue.id} value={queue.id}>
+					{userTags?.length > 0 &&
+						userTags.map(tag => (
+							<MenuItem dense key={tag.id} value={tag.id}>
 								<Checkbox
 									style={{
-										color: queue.color,
+										color: tag.color,
 									}}
 									size="small"
 									color="primary"
-									checked={selectedQueueIds.indexOf(queue.id) > -1}
+									checked={selectedQueueIds.indexOf(tag.id) > -1}
 								/>
-								<ListItemText primary={queue.name} />
+								<ListItemText primary={tag.name} />
 							</MenuItem>
 						))}
 				</Select>

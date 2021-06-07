@@ -93,7 +93,7 @@ const TicketActionButtons = ({ ticket }) => {
 					{i18n.t("messagesList.header.buttons.reopen")}
 				</ButtonWithSpinner>
 			)}
-			{ticket.status === "open" && (
+			{ticket.status !== "closed" && ticket.status !== "pending" &&(
 				<>
 					<ButtonWithSpinner
 						loading={loading}
@@ -110,6 +110,9 @@ const TicketActionButtons = ({ ticket }) => {
 						color="primary"
 						onClick={e => handleUpdateTicketStatus(e, "closed", user?.id)}
 					>
+					
+						{i18n.t("messagesList.header.buttons.resolve")}
+					</ButtonWithSpinner>
 					<Select value={"etiqueta"} 
 					onChange={(event) => handleUpdateTicketStatus(event, event.target.value, user?.id)}
 					MenuProps={{
@@ -138,8 +141,6 @@ const TicketActionButtons = ({ ticket }) => {
 						 key={1} name={"none"}>{"Cargando etiquetas"}</MenuItem>
 						}
 					</Select>
-						{i18n.t("messagesList.header.buttons.resolve")}
-					</ButtonWithSpinner>
 					<IconButton onClick={handleOpenTicketOptionsMenu}>
 						<MoreVert />
 					</IconButton>

@@ -27,15 +27,6 @@ const useStyles = makeStyles(theme => ({
 	button: {
 		position: "relative",
 	},
-
-	buttonProgress: {
-		color: green[500],
-		position: "absolute",
-		top: "50%",
-		left: "50%",
-		marginTop: -12,
-		marginLeft: -12,
-	},
 }));
 
 const TicketActionButtons = ({ ticket }) => {
@@ -120,7 +111,19 @@ const TicketActionButtons = ({ ticket }) => {
 						onClick={e => handleUpdateTicketStatus(e, "closed", user?.id)}
 					>
 					<Select value={"etiqueta"} 
-					onChange={(event) => handleUpdateTicketStatus(event, event.target.value, user?.id)}>
+					onChange={(event) => handleUpdateTicketStatus(event, event.target.value, user?.id)}
+					MenuProps={{
+						anchorOrigin: {
+							vertical: "bottom",
+							horizontal: "left",
+						},
+						transformOrigin: {
+							vertical: "top",
+							horizontal: "left",
+						},
+						getContentAnchorEl: null,
+					}}
+					renderValue={() => i18n.t("ticketsTagsSelect.placeholder")}d>
 						{ tickettag ? 
 						 tickettag.map((option, index) => (
 							<MenuItem

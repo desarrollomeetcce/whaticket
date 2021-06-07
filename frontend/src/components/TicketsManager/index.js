@@ -22,6 +22,7 @@ import { Can } from "../Can";
 import TicketsQueueSelect from "../TicketsQueueSelect";
 import TicketsTagSelect from "../TicketsTagSelect";
 import { Button } from "@material-ui/core";
+import api from "../../services/api";
 
 const useStyles = makeStyles(theme => ({
 	ticketsWrapper: {
@@ -92,7 +93,7 @@ const TicketsManager = () => {
 	const { user } = useContext(AuthContext);
 
 	const userQueueIds = user.queues.map(q => q.id);
-	const userTagIds = user.queues.map(q => q.status);
+	const [userTagIds, setUserTagIds] = useState([]);
 
 	const [selectedQueueIds, setSelectedQueueIds] = useState(userQueueIds || []);
 
@@ -104,6 +105,23 @@ const TicketsManager = () => {
 			searchInputRef.current.focus();
 		}
 	}, [tab]);
+
+	const [ userTagIds,setUserTagIds ] =useState(null);
+
+	useEffect(() => {
+		(async () => {
+			
+			try {
+				const {data} = await api.get("/tag");
+				console.log(data);
+				setUserTagIds(data);
+				
+			} catch (err) {
+				toastError(err);
+				console.log(err);
+			}
+		})();
+	}, []);
 
 	let searchTimeout;
 
@@ -222,7 +240,7 @@ const TicketsManager = () => {
 					style={{ marginLeft: 6 }}
 					selectedQueueIds={selectedTagIds}
 					userTags={user?.queues}
-					onChange={values => setSelectedQueueIds(values)}
+					onChange={values => setSelectedTagIds(values)}
 				/>
 			</Paper>
 			<TabPanel value={tab} name="open" className={classes.ticketsWrapper}>

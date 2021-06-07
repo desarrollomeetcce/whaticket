@@ -259,6 +259,7 @@ const messages = {
 					tickets: "Tickets",
 					contacts: "Contactos",
 					queues: "Linhas",
+					tags: "Etiquetas",
 					administration: "Administración",
 					users: "Usuarios",
 					settings: "Configuración",
@@ -292,6 +293,26 @@ const messages = {
 			},
 			queueSelect: {
 				inputLabel: "Linhas",
+			},
+			tags: {
+				title: "Etiquetas",
+				table: {
+					name: "Nombre",
+					color: "Color",
+					greeting: "Descripción",
+					actions: "Comportamiento",
+				},
+				buttons: {
+					add: "Agregar etiqueta",
+				},
+				confirmationModal: {
+					deleteTitle: "Eliminar",
+					deleteMessage:
+						"¿Estás seguro? ¡Esta acción no se puede revertir! Los tickets en esa etiqueta seguirán existiendo, pero ya no tendrán ninguna etiqueta asignada.",
+				},
+			},
+			tagSelect: {
+				inputLabel: "Etiquetas",
 			},
 			users: {
 				title: "Usuarios",

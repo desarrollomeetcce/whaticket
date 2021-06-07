@@ -163,7 +163,7 @@ const Queues = () => {
 			<ConfirmationModal
 				title={
 					selectedQueue &&
-					`${i18n.t("queues.confirmationModal.deleteTitle")} ${
+					`${i18n.t("tags.confirmationModal.deleteTitle")} ${
 						selectedQueue.name
 					}?`
 				}
@@ -171,7 +171,7 @@ const Queues = () => {
 				onClose={handleCloseConfirmationModal}
 				onConfirm={() => handleDeleteQueue(selectedQueue.id)}
 			>
-				{i18n.t("queues.confirmationModal.deleteMessage")}
+				{i18n.t("tags.confirmationModal.deleteMessage")}
 			</ConfirmationModal>
 			<TagModal
 				open={queueModalOpen}
@@ -179,14 +179,14 @@ const Queues = () => {
 				queueId={selectedQueue?.id}
 			/>
 			<MainHeader>
-				<Title>{i18n.t("queues.title")}</Title>
+				<Title>{i18n.t("tags.title")}</Title>
 				<MainHeaderButtonsWrapper>
 					<Button
 						variant="contained"
 						color="primary"
 						onClick={handleOpenQueueModal}
 					>
-						{i18n.t("queues.buttons.add")}
+						{i18n.t("tags.buttons.add")}
 					</Button>
 				</MainHeaderButtonsWrapper>
 			</MainHeader>
@@ -195,16 +195,16 @@ const Queues = () => {
 					<TableHead>
 						<TableRow>
 							<TableCell align="center">
-								{i18n.t("queues.table.name")}
+								{i18n.t("tags.table.name")}
 							</TableCell>
 							<TableCell align="center">
-								{i18n.t("queues.table.color")}
+								{i18n.t("tags.table.color")}
 							</TableCell>
 							<TableCell align="center">
-								{i18n.t("queues.table.greeting")}
+								{i18n.t("tags.table.greeting")}
 							</TableCell>
 							<TableCell align="center">
-								{i18n.t("queues.table.actions")}
+								{i18n.t("tags.table.actions")}
 							</TableCell>
 						</TableRow>
 					</TableHead>

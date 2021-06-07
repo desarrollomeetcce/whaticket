@@ -282,8 +282,30 @@ const messages = {
 						"Are you sure? It cannot be reverted! Tickets in this queue will still exist, but will not have any queues assigned.",
 				},
 			},
+			
 			queueSelect: {
 				inputLabel: "Queues",
+			},
+			tags: {
+				title: "Tags",
+				table: {
+					name: "Name",
+					color: "Color",
+					greeting: "Description",
+					actions: "Actions",
+				},
+				buttons: {
+					add: "Add tag",
+				},
+				confirmationModal: {
+					deleteTitle: "Delete",
+					deleteMessage:
+						"Are you sure? It cannot be reverted! Tickets in whith this tag will still exist, but will not have any tag assigned.",
+				},
+			},
+			
+			tagSelect: {
+				inputLabel: "Tags",
 			},
 			users: {
 				title: "Users",

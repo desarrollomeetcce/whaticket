@@ -11,6 +11,8 @@ import TicketOptionsMenu from "../TicketOptionsMenu";
 import ButtonWithSpinner from "../ButtonWithSpinner";
 import toastError from "../../errors/toastError";
 import { AuthContext } from "../../context/Auth/AuthContext";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles(theme => ({
 	actionButtons: {
@@ -21,6 +23,18 @@ const useStyles = makeStyles(theme => ({
 		"& > *": {
 			margin: theme.spacing(1),
 		},
+	},
+	button: {
+		position: "relative",
+	},
+
+	buttonProgress: {
+		color: green[500],
+		position: "absolute",
+		top: "50%",
+		left: "50%",
+		marginTop: -12,
+		marginLeft: -12,
 	},
 }));
 
@@ -105,14 +119,22 @@ const TicketActionButtons = ({ ticket }) => {
 						color="primary"
 						onClick={e => handleUpdateTicketStatus(e, "closed", user?.id)}
 					>
-					<select value={"etiqueta"} 
+					<Select value={"etiqueta"} 
 					onChange={(event) => handleUpdateTicketStatus(event, event.target.value, user?.id)}>
 						{ tickettag ? 
 						 tickettag.map((option, index) => (
-							<option key={index} value={option.name}>{option.name}</option>
-						  )): <option>Cargando</option>
+							<MenuItem
+							label="Cargando etiquetas"
+							value={dt.country_code}
+						   key={index} name={option.name}>{option.name}</MenuItem>
+
+						
+						  )): 	<MenuItem
+						  label="Cargando etiquetas"
+						  value={dt.country_code}
+						 key={index} name={option.name}>{option.name}</MenuItem>
 						}
-					</select>
+					</Select>
 						{i18n.t("messagesList.header.buttons.resolve")}
 					</ButtonWithSpinner>
 					<IconButton onClick={handleOpenTicketOptionsMenu}>

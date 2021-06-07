@@ -61,7 +61,6 @@ const useAuth = () => {
 					const { data } = await api.post("/auth/refresh_token");
 					api.defaults.headers.Authorization = `Bearer ${data.token}`;
 					setIsAuth(true);
-					console.log(data.user);
 					setUser(data.user);
 				} catch (err) {
 					toastError(err);

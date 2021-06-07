@@ -117,7 +117,7 @@ const TicketsManager = () => {
 				setUserTagIds(data);
 				
 			} catch (err) {
-				toastError(err);
+		
 				console.log(err);
 			}
 		})();

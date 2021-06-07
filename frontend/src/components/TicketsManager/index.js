@@ -239,7 +239,7 @@ const TicketsManager = () => {
 				<TicketsTagSelect
 					style={{ marginLeft: 6 }}
 					selectedQueueIds={selectedTagIds}
-					userTags={user?.queues}
+					userTags={userTagIds}
 					onChange={values => setSelectedTagIds(values)}
 				/>
 			</Paper>

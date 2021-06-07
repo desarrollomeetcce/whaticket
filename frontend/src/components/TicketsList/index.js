@@ -301,7 +301,10 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds }) => {
 					) : (
 						<>
 							{ticketsList.map(ticket => (
-								<TicketListItem ticket={ticket} key={ticket.id} />
+								ticket.status === status? 
+									<TicketListItem ticket={ticket} key={ticket.id} />
+								: ""
+								
 							))}
 						</>
 					)}

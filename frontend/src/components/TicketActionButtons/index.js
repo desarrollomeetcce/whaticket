@@ -128,14 +128,14 @@ const TicketActionButtons = ({ ticket }) => {
 						 tickettag.map((option, index) => (
 							<MenuItem
 							label="Cargando etiquetas"
-							value={dt.country_code}
+							value={option.name}
 						   key={index} name={option.name}>{option.name}</MenuItem>
 
 						
 						  )): 	<MenuItem
 						  label="Cargando etiquetas"
-						  value={dt.country_code}
-						 key={index} name={option.name}>{option.name}</MenuItem>
+						  value={"none"}
+						 key={1} name={"none"}>{"Cargando etiquetas"}</MenuItem>
 						}
 					</Select>
 						{i18n.t("messagesList.header.buttons.resolve")}

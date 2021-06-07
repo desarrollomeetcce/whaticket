@@ -39,7 +39,7 @@ const UpdateTicketService = async ({
   }
 
   await ticket.update({
-    status[0],
+    status,
     queueId,
     userId
   });

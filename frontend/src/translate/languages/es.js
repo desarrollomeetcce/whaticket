@@ -212,6 +212,7 @@ const messages = {
 					message: "Mensaje de",
 				},
 				tabs: {
+					pending: { title: "Pendientes" },
 					open: { title: "Bandeja" },
 					closed: { title: "Resueltos" },
 					search: { title: "Buscar" },

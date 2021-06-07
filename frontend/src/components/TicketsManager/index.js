@@ -143,6 +143,12 @@ const TicketsManager = () => {
 					aria-label="icon label tabs example"
 				>
 					<Tab
+						value={"pending"}
+						icon={<MoveToInboxIcon />}
+						label={i18n.t("tickets.tabs.pending.title")}
+						classes={{ root: classes.tab }}
+					/>
+					<Tab
 						value={"open"}
 						icon={<MoveToInboxIcon />}
 						label={i18n.t("tickets.tabs.open.title")}
@@ -183,7 +189,7 @@ const TicketsManager = () => {
 						>
 							{i18n.t("ticketsManager.buttons.newTicket")}
 						</Button>
-						<Can
+						{/*<Can
 							role={user.profile}
 							perform="tickets-manager:showall"
 							yes={() => (
@@ -203,7 +209,7 @@ const TicketsManager = () => {
 									}
 								/>
 							)}
-						/>
+								/>*/}
 					</>
 				)}
 				<TicketsQueueSelect

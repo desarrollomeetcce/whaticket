@@ -10,7 +10,7 @@ import ShowUserService from "../UserServices/ShowUserService";
 interface Request {
   searchParam?: string;
   pageNumber?: string;
-  status?: string;
+  status?: string[];
   date?: string;
   showAll?: string;
   userId: string;
@@ -35,7 +35,7 @@ const ListTicketsService = async ({
   withUnreadMessages
 }: Request): Promise<Response> => {
   let whereCondition: Filterable["where"] = {
-    [Op.or]: [{ userId }, { status: "pending" }],
+    [Op.or]: [{ userId }, { status: ["pending"] }],
     queueId: { [Op.or]: [queueIds, null] }
   };
   let includeCondition: Includeable[];

@@ -93,7 +93,7 @@ const TicketsManager = () => {
 	const { user } = useContext(AuthContext);
 
 	const userQueueIds = user.queues.map(q => q.id);
-	const [userTagIds, setUserTagIds] = useState([]);
+
 
 	const [selectedQueueIds, setSelectedQueueIds] = useState(userQueueIds || []);
 

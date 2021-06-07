@@ -5,7 +5,7 @@ import Ticket from "../../models/Ticket";
 import ShowTicketService from "./ShowTicketService";
 
 interface TicketData {
-  status?: string;
+  status?: string[];
   userId?: number;
   queueId?: number;
 }
@@ -39,7 +39,7 @@ const UpdateTicketService = async ({
   }
 
   await ticket.update({
-    status,
+    status[0],
     queueId,
     userId
   });

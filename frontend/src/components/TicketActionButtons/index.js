@@ -142,14 +142,14 @@ const TicketActionButtons = ({ ticket }) => {
 						}
 					</Select>
 					<IconButton onClick={handleOpenTicketOptionsMenu}>
-						<MoreVert />
+						<MoreVert/>
 					</IconButton>
 					<TicketOptionsMenu
 						ticket={ticket}
 						anchorEl={anchorEl}
 						menuOpen={ticketOptionsMenuOpen}
 						handleClose={handleCloseTicketOptionsMenu}
-					/>
+					></TicketOptionsMenu>
 				</>
 			)}
 			{ticket.status === "pending" && (

@@ -116,7 +116,7 @@ const MainListItems = () => {
 						/>
 							<ListItemLink
 							to="/tags"
-							primary={i18n.t("mainDrawer.listItems.queues")}
+							primary={i18n.t("mainDrawer.listItems.tags")}
 							icon={<AccountTreeOutlinedIcon />}
 						/>
 						<ListItemLink

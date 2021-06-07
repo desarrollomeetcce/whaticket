@@ -6,7 +6,7 @@ import ShowContactService from "../ContactServices/ShowContactService";
 
 interface Request {
   contactId: number;
-  status: string[];
+  status: string;
   userId: number;
 }
 

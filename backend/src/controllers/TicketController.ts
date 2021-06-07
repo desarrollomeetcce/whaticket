@@ -10,7 +10,7 @@ import UpdateTicketService from "../services/TicketServices/UpdateTicketService"
 type IndexQuery = {
   searchParam: string;
   pageNumber: string;
-  status: string[];
+  status: string;
   date: string;
   showAll: string;
   withUnreadMessages: string;
@@ -19,7 +19,7 @@ type IndexQuery = {
 
 interface TicketData {
   contactId: number;
-  status: string[];
+  status: string;
   queueId: number;
   userId: number;
 }

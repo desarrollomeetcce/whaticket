@@ -111,6 +111,7 @@ const TicketListItem = ({ ticket }) => {
 
 	useEffect(() => {
 		return () => {
+			console.log(ticket);
 			isMounted.current = false;
 		};
 	}, []);

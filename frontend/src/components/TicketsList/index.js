@@ -153,7 +153,7 @@ const reducer = (state, action) => {
 	}
 };
 
-const TicketsList = ({ status, searchParam, showAll, selectedQueueIds,selectedTagsIds }) => {
+const TicketsList = ({ status, searchParam, showAll, selectedQueueIds }) => {
 	const classes = useStyles();
 	const [pageNumber, setPageNumber] = useState(1);
 	const [ticketsList, dispatch] = useReducer(reducer, []);
@@ -162,7 +162,7 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds,selectedTa
 	useEffect(() => {
 		dispatch({ type: "RESET" });
 		setPageNumber(1);
-	}, [status, searchParam, dispatch, showAll, selectedQueueIds,selectedTagsIds]);
+	}, [status, searchParam, dispatch, showAll, selectedQueueIds]);
 
 	const { tickets, hasMore, loading } = useTickets({
 		pageNumber,
@@ -170,7 +170,6 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds,selectedTa
 		status,
 		showAll,
 		queueIds: JSON.stringify(selectedQueueIds),
-		tags: JSON.stringify(selectedTagsIds),
 	});
 
 	useEffect(() => {
@@ -193,7 +192,7 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds,selectedTa
 
 		socket.on("connect", () => {
 			if (status) {
-				socket.emit("joinTickets", selectedTagsIds);
+				socket.emit("joinTickets", status);
 			} else {
 				socket.emit("joinNotification");
 			}

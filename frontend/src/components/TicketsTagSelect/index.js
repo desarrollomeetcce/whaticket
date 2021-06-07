@@ -19,7 +19,7 @@ const TicketsTagSelect = ({
 		<div style={{ width: 120, marginTop: -4 }}>
 			<FormControl fullWidth margin="dense">
 				<Select
-					multiple
+					
 					displayEmpty
 					variant="outlined"
 					value={selectedQueueIds}
@@ -38,19 +38,14 @@ const TicketsTagSelect = ({
 					renderValue={() => i18n.t("ticketsTagsSelect.placeholder")}
 				>
 					{userTags?.length > 0 &&
-						userTags.map(tag => (
-							<MenuItem dense key={tag.id} value={tag.id}>
-								<Checkbox
-									style={{
-										color: tag.color,
-									}}
-									size="small"
-									color="primary"
-									checked={selectedQueueIds.indexOf(tag.id) > -1}
-								/>
-								<ListItemText primary={tag.name} />
-							</MenuItem>
-						))}
+						userTags.map(option => (
+							<MenuItem
+							label="Cargando etiquetas"
+							value={option.name}
+						   key={option.id} name={option.name}>{option.name}</MenuItem>
+
+						
+						  ))}
 				</Select>
 			</FormControl>
 		</div>

@@ -21,9 +21,7 @@ const useTickets = ({
 		const delayDebounceFn = setTimeout(() => {
 			const fetchTickets = async () => {
 				try {
-					if(typeof(status) === 'string'){
-						status = [status]
-					}
+					
 					const { data } = await api.get("/tickets", {
 						params: {
 							searchParam,

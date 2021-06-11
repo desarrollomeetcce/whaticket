@@ -5,7 +5,7 @@ import Ticket from "../../models/Ticket";
 import ShowTicketService from "./ShowTicketService";
 
 interface TicketData {
-  status?: string<;
+  status?: string;
   userId?: number;
   queueId?: number;
 }

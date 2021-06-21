@@ -24,6 +24,7 @@ services:
     container_name: whaticket-back
     # command: bash -c "
     #       npx sequelize db:migrate"
+    restart: always
     environment:
       - APPLICATION_URL=mysqldb
     ports:

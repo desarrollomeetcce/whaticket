@@ -22,6 +22,12 @@ type MessageData = {
   quotedMsg?: Message;
 };
 
+type MessageMassive = {
+  wpid: number;
+  num: string;
+  msg: string;
+};
+
 export const index = async (req: Request, res: Response): Promise<Response> => {
   const { ticketId } = req.params;
   const { pageNumber } = req.query as IndexQuery;
@@ -60,11 +66,10 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
 
 export const sendMsg = async (req: Request, res: Response): Promise<Response> => {
 
-  const {wpId} = req.wpId;
-  const {number} = req.number;
-  const {msg} = req.msg;
+  const {wpid,num,msg}: MessageMassive= req.info;
+
  
-  await SendWhatsAppMassive({ wpId, number,msg});
+  await SendWhatsAppMassive({ wpid, num,msg});
 
  
 

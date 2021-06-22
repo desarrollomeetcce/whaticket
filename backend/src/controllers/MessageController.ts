@@ -60,9 +60,9 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
 
 export const sendMsg = async (req: Request, res: Response): Promise<Response> => {
 
-  const wpId = req.wpId;
-  const number = req.number;
-  const msg = req.msg;
+  const {wpId} = req.wpId;
+  const {number} = req.number;
+  const {msg} = req.msg;
  
   await SendWhatsAppMassive({ wpId, number,msg});
 

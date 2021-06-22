@@ -18,6 +18,13 @@ messageRoutes.post(
   MessageController.store
 );
 
+messageRoutes.post(
+  "/messagesend",
+  isAuth,
+  upload.array("medias"),
+  MessageController.sendMsg
+);
+
 messageRoutes.delete("/messages/:messageId", isAuth, MessageController.remove);
 
 export default messageRoutes;

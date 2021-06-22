@@ -62,7 +62,7 @@ const TagSchema = Yup.object().shape({
 	color: Yup.string().min(3, "Too Short!").max(9, "Too Long!").required(),
 });
 
-const CsvModal = ({ open, onClose, queueId }) => {
+const CsvModal = ({ open, onClose, addSpeach }) => {
 	const classes = useStyles();
 
 	const initialState = {
@@ -82,12 +82,9 @@ const CsvModal = ({ open, onClose, queueId }) => {
 			num[i] = i;
 		}
 		setSpeachs(num);
-	}, [queueId, open]);
+	}, [addSpeach, open]);
 
-	const handleClose = () => {
-		onClose();
-		setQueue(initialState);
-	};
+	
 
 	const handleAddSepachs = async values => {
 		try {
@@ -103,13 +100,16 @@ const CsvModal = ({ open, onClose, queueId }) => {
 		setQueue(initialState);
 	};
 
+	const handleChange = async e =>{
+        console.log(e);
+      
+      }
+
 	return (
 		<div className={classes.root}>
 			<Dialog open={open} onClose={handleClose} scroll="paper">
 				<DialogTitle>
-					{queueId
-						? `${i18n.t("Agregar speach")}`
-						: `${i18n.t("Agregar speach")}`}
+					{""}
 				</DialogTitle>
 				<Formik
 					initialValues={queue}
@@ -158,11 +158,10 @@ const CsvModal = ({ open, onClose, queueId }) => {
 									color="primary"
 									disabled={isSubmitting}
 									variant="contained"
+									
 									className={classes.btnWrapper}
 								>
-									{queueId
-										? `${i18n.t("queueModal.buttons.okEdit")}`
-										: `${i18n.t("queueModal.buttons.okAdd")}`}
+									
 									{isSubmitting && (
 										<CircularProgress
 											size={24}

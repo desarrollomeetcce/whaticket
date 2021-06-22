@@ -23,7 +23,7 @@ type MessageData = {
 };
 
 type MessageMassive = {
-  wpid: number;
+  wpId: number;
   num: string;
   msg: string;
 };
@@ -66,10 +66,10 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
 
 export const sendMsg = async (req: Request, res: Response): Promise<Response> => {
 
-  const {wpid,num,msg}: MessageMassive= req.info;
+  const {wpId,num,msg}: MessageMassive= req.info;
 
  
-  await SendWhatsAppMassive({ wpid, num,msg});
+  await SendWhatsAppMassive({ wpId, num,msg});
 
  
 

@@ -5,9 +5,9 @@ import GetTicketWbotByID from "../../helpers/GetTicketWbotByID";
 import Ticket from "../../models/Ticket";
 
 interface Request {
-  wpId: Number;
-  number: String;
-  msg: String;
+  wpId: number;
+  number: string;
+  msg: string;
 }
 
 const SendWhatsAppMassive = async ({

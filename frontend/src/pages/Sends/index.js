@@ -1,5 +1,5 @@
 import React, { useEffect, useState,useMemo,useContext } from "react";
-
+import { WhatsAppsContext } from "../../context/WhatsApp/WhatsAppsContext";
 
 
 import {
@@ -110,10 +110,10 @@ const Sends = () => {
     const [message, setmessage] =  useState("");
 
     const { user } = useContext(AuthContext);
+    const { whatsApps, loading } = useContext(WhatsAppsContext);
+    const userQueueIds = whatsApps.map(q => q.id);
 
-    const userQueueIds = user.queues.map(q => q.id);
-
-
+    
 	const [selectedQueueIds, setSelectedQueueIds] = useState(userQueueIds || []);
 
 	useEffect(() => {
@@ -211,6 +211,12 @@ const Sends = () => {
          let err={};
          err["message"] = {};
          err["message"]["data"] = "Ocurrio un error";
+
+         if(selectedQueueIds.length == 0){
+            err["message"]["data"] = "Debe seleccionar un número";
+            toastError(err);
+            return false;
+         }
         if(csvFile.length==0){
             err["message"]["data"] = "Debe adjuntar csv";
             toastError(err);
@@ -293,7 +299,7 @@ const Sends = () => {
                <TicketsQueueSelect
 					style={{ marginLeft: 6 }}
 					selectedQueueIds={selectedQueueIds}
-					userQueues={user?.queues}
+					userQueues={whatsApps}
 					onChange={values => setSelectedQueueIds(values)}
 				/>
                 <div className="input-group col-lg-12 mb-4">

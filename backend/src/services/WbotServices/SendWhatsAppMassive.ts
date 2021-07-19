@@ -35,7 +35,7 @@ const SendWhatsAppMassive = async ({
 
     return sentMessage;
   } catch (err) {
-    throw new AppError("ERR_SENDING_WAPP_MSG"+err);
+    throw new AppError(err);
   }
 };
 

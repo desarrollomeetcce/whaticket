@@ -143,7 +143,7 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
 
 export const getWbot = (whatsappId: number): Session => {
   const sessionIndex = sessions.findIndex(s => s.id === whatsappId);
-
+  console.log(sessions);
   if (sessionIndex === -1) {
     throw new AppError("ERR_WAPP_NOT_INITIALIZED");
   }

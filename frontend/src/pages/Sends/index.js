@@ -12,7 +12,9 @@ import {
 	TableCell,
 	TableHead,
 	TableRow,
+    
 } from "@material-ui/core";
+
 
 import MainContainer from "../../components/MainContainer";
 import MainHeader from "../../components/MainHeader";
@@ -21,7 +23,7 @@ import Title from "../../components/Title";
 import { i18n } from "../../translate/i18n";
 import toastError from "../../errors/toastError";
 
-import { DeleteOutline, Edit, LocalConvenienceStoreOutlined, ShoppingCartOutlined } from "@material-ui/icons";
+import { CheckCircle,DeleteOutline, Edit, LocalConvenienceStoreOutlined, ShoppingCartOutlined } from "@material-ui/icons";
 
 import Dropzone from 'react-dropzone';
 import {useDropzone} from 'react-dropzone';
@@ -32,8 +34,8 @@ import TicketsQueueSelect from "../../components/TicketsQueueSelect";
 
 import api from "../../services/api";
 import { AuthContext } from "../../context/Auth/AuthContext";
-
-
+import { toast } from "react-toastify";
+import { green } from "@material-ui/core/colors";
 const baseStyle = {
     flex: 1,
     display: 'flex',
@@ -103,6 +105,7 @@ const Sends = () => {
 
     const [csvFile, setCsvFile] =  useState([]);
     const [clients, setClients] =  useState([]);
+    const [msgSend, setMsgSend] =  useState([]);
     const [marcacion, Setmarcacion] =  useState("521");
     const [sepachsCount, setSepachsCount] =  useState(1);
     const [randomCount, setRandomCount] =  useState(1);
@@ -240,7 +243,7 @@ const Sends = () => {
 
     
         try {
-            console.log(sepachs);
+            toast.success(i18n.t("Enviando mensajes"));
             let speachcount = 0;
             for(let i = 0; i< finalData.clients.length; i++){
 
@@ -268,10 +271,20 @@ const Sends = () => {
                     msg: msgtemp
                 }
                 //console.log(values);
-                const { data } =  api.post("/messagesend", values);
+                try{
+                    const { data } =  api.post("/messagesend", values);
+                    console.log(data);
+                    msgSend.push(i);
+                    let msgSendTemp = msgSend;
+                    setMsgSend(msgSendTemp);
+                    setRandomCount(randomCount+1);    
+                } catch (err) {
+                   console.log(err);
+                }
+               
             }
            
-           // toast.success(i18n.t("contactModal.success"));
+            toast.success(i18n.t("Termina envio de mensajes"));
         } catch (err) {
             toastError(err);
         }
@@ -406,6 +419,9 @@ const Sends = () => {
 							<TableCell align="center">
 								{"Teléfono"}
 							</TableCell>
+                            <TableCell align="center">
+								{"Estatus"}
+							</TableCell>
                            
 							<TableCell align="center">
 								{"Acciones"}
@@ -419,7 +435,13 @@ const Sends = () => {
 									<TableCell align="center">{queue[0]}</TableCell>
                                     <TableCell align="center">{marcacion}</TableCell>
 									<TableCell align="center">{queue[1]}</TableCell>
-			
+                                    <TableCell align="center">
+                                        {msgSend.indexOf(i) != -1 ?
+                                            
+                                                <CheckCircle style={{ color: green[500] }} />
+                                            
+                                        : "Pendiente"}
+                                    </TableCell>
 									<TableCell align="center">
 										{/*<IconButton
 											size="small"

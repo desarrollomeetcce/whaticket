@@ -144,7 +144,7 @@ const Ticket = () => {
 					/>
 					<TicketActionButtons ticket={ticket} />
 				
-				/>
+				
 				</TicketHeader>
 				<ReplyMessageProvider>
 					<MessagesList

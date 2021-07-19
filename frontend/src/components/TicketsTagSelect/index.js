@@ -10,6 +10,7 @@ const TicketsTagSelect = ({
 	userTags,
 	selectedQueueIds = [],
 	onChange,
+	placeholder,
 }) => {
 	const handleChange = e => {
 		onChange(e.target.value);
@@ -35,7 +36,7 @@ const TicketsTagSelect = ({
 						},
 						getContentAnchorEl: null,
 					}}
-					renderValue={() => i18n.t("ticketsTagsSelect.placeholder")}
+					renderValue={() => selectedQueueIds}
 				>
 					{userTags?.length > 0 &&
 						userTags.map(option => (

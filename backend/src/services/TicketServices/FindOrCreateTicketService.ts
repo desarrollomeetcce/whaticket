@@ -12,9 +12,7 @@ const FindOrCreateTicketService = async (
 ): Promise<Ticket> => {
   let ticket = await Ticket.findOne({
     where: {
-      status: {
-        [Op.or]: ["open", "pending"]
-      },
+
       contactId: groupContact ? groupContact.id : contact.id
     }
   });

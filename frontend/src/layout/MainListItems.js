@@ -14,6 +14,8 @@ import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import ContactPhoneOutlinedIcon from "@material-ui/icons/ContactPhoneOutlined";
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
+import SendIcon from '@material-ui/icons/Send';
+import BusinessIcon from '@material-ui/icons/Business';
 
 import { i18n } from "../translate/i18n";
 import { WhatsAppsContext } from "../context/WhatsApp/WhatsAppsContext";
@@ -112,12 +114,17 @@ const MainListItems = () => {
 						<ListItemLink
 							to="/queues"
 							primary={i18n.t("mainDrawer.listItems.queues")}
-							icon={<AccountTreeOutlinedIcon />}
+							icon={<BusinessIcon />}
 						/>
 							<ListItemLink
 							to="/tags"
 							primary={i18n.t("mainDrawer.listItems.tags")}
 							icon={<AccountTreeOutlinedIcon />}
+						/>
+						<ListItemLink
+							to="/sending"
+							primary={i18n.t("mainDrawer.listItems.envio")}
+							icon={<SendIcon />}
 						/>
 						<ListItemLink
 							to="/settings"

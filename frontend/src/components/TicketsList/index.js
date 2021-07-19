@@ -153,10 +153,11 @@ const reducer = (state, action) => {
 	}
 };
 
-const TicketsList = ({ status, searchParam, showAll, selectedQueueIds }) => {
+const TicketsList = ({ status, searchParam, showAll, selectedQueueIds,ticketsSelected,updateTickets, ticketTags}) => {
 	const classes = useStyles();
 	const [pageNumber, setPageNumber] = useState(1);
 	const [ticketsList, dispatch] = useReducer(reducer, []);
+
 	const { user } = useContext(AuthContext);
 
 	useEffect(() => {
@@ -173,10 +174,18 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds }) => {
 	});
 
 	useEffect(() => {
+	
 		if (!status && !searchParam) return;
+		let ticketsTemp = [];
+		tickets.forEach( function(ticket, indice) {
+			if(ticket.status === status){
+				ticketsTemp.push(ticket);
+			}
+			
+		});
 		dispatch({
 			type: "LOAD_TICKETS",
-			payload: tickets,
+			payload: ticketsTemp,
 		});
 	}, [tickets, status, searchParam]);
 
@@ -269,6 +278,8 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds }) => {
 				onScroll={handleScroll}
 			>
 				<List style={{ paddingTop: 0 }}>
+					
+					
 					{status !== "pending" && status !== "closed" && (
 						<ListSubheader className={classes.ticketsListHeader}>
 							<div>
@@ -289,6 +300,8 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds }) => {
 							</div>
 						</ListSubheader>
 					)}
+					
+
 					{ticketsList.length === 0 && !loading ? (
 						<div className={classes.noTicketsDiv}>
 							<span className={classes.noTicketsTitle}>
@@ -301,9 +314,10 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds }) => {
 					) : (
 						<>
 							{ticketsList.map(ticket => (
-								ticket.status === status? 
-									<TicketListItem ticket={ticket} key={ticket.id} />
-								: ""
+								ticket.status === status ?
+								<TicketListItem ticket={ticket} key={ticket.id} ticketsSelected={ticketsSelected} updateTickets={updateTickets} ticketTags={ticketTags}/>
+								:""
+									
 								
 							))}
 						</>

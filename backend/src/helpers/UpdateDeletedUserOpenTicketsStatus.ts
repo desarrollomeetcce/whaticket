@@ -8,7 +8,7 @@ const UpdateDeletedUserOpenTicketsStatus = async (
     const ticketId = t.id.toString();
 
     await UpdateTicketService({
-      ticketData: { status: "pending" },
+      ticketData: { status: t.status },
       ticketId
     });
   });

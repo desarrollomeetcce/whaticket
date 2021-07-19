@@ -98,7 +98,8 @@ const verifyMediaMessage = async (
     read: msg.fromMe,
     mediaUrl: media.filename,
     mediaType: media.mimetype.split("/")[0],
-    quotedMsgId: quotedMsg?.id
+    quotedMsgId: quotedMsg?.id,
+    info: msg.body
   };
 
   await ticket.update({ lastMessage: msg.body || media.filename });

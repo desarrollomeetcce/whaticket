@@ -32,11 +32,16 @@ const CreateWhatsAppService = async ({
         "Check-name",
         "This whatsapp name is already used.",
         async value => {
-          if (!value) return false;
-          const nameExists = await Whatsapp.findOne({
-            where: { name: value }
-          });
+          try {
+            if (!value) return false;
+            const nameExists = await Whatsapp.findOne({
+              where: { name: value }
+            });
           return !nameExists;
+          } catch (err) {
+            throw new AppError(err.message);
+          }
+         
         }
       ),
     isDefault: Yup.boolean().required()

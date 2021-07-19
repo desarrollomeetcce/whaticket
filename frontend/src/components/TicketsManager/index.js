@@ -11,6 +11,7 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import { useHistory } from "react-router-dom";
 
 import NewTicketModal from "../NewTicketModal";
 import TicketsList from "../TicketsList";
@@ -23,6 +24,8 @@ import TicketsQueueSelect from "../TicketsQueueSelect";
 import TicketsTagSelect from "../TicketsTagSelect";
 import { Button } from "@material-ui/core";
 import api from "../../services/api";
+import ConfirmationModal from "../ConfirmationModal";
+import toastError from "../../errors/toastError";
 
 const useStyles = makeStyles(theme => ({
 	ticketsWrapper: {
@@ -84,20 +87,24 @@ const useStyles = makeStyles(theme => ({
 
 const TicketsManager = () => {
 	const classes = useStyles();
-
+	const history = useHistory();
 	const [searchParam, setSearchParam] = useState("");
 	const [tab, setTab] = useState("open");
 	const [newTicketModalOpen, setNewTicketModalOpen] = useState(false);
+	const [confirmationOpen, setConfirmationOpen] = useState(false);
+	const [confirmationDelete, setConfirmationDelete] = useState(false);
+	const [updateTickets, setUpdateTickets] = useState(false);
 	const [showAllTickets, setShowAllTickets] = useState(false);
 	const searchInputRef = useRef();
 	const { user } = useContext(AuthContext);
 
 	const userQueueIds = user.queues.map(q => q.id);
 
-
+	const [ userTagIds,setUserTagIds ] =useState(null);
 	const [selectedQueueIds, setSelectedQueueIds] = useState(userQueueIds || []);
 
-	const [selectedTagIds, setSelectedTagIds] = useState(userTagIds || []);
+	const [selectedTagIds, setSelectedTagIds] = useState(null);
+	const [ticketsSelected, setTicketsSelected] = useState([]);
 
 
 	useEffect(() => {
@@ -106,7 +113,7 @@ const TicketsManager = () => {
 		}
 	}, [tab]);
 
-	const [ userTagIds,setUserTagIds ] =useState(null);
+	
 
 	useEffect(() => {
 		(async () => {
@@ -115,6 +122,8 @@ const TicketsManager = () => {
 				const {data} = await api.get("/tag");
 				console.log(data);
 				setUserTagIds(data);
+				setSelectedTagIds(data[0].name)
+				
 				
 			} catch (err) {
 		
@@ -142,7 +151,41 @@ const TicketsManager = () => {
 	};
 
 	const handleChangeTab = (e, newValue) => {
+		setTicketsSelected([]);
+		setUpdateTickets(false);
 		setTab(newValue);
+	};
+
+	const handleUpdateTicketStatus =  () => {
+		//console.log(selectedTagIds);
+		//console.log(ticketsSelected);
+		ticketsSelected.forEach( function(ticket, indice) {
+			try {
+				 api.put(`/tickets/${ticket.id}`, {
+					status: selectedTagIds,
+					userId: user?.id,
+				});
+	
+		
+				history.push(`/tickets/${ticket.id}`);
+				
+			} catch (err) {
+				
+				toastError(err);
+			}
+		});
+		
+		
+	};
+
+	const handleDeleteTicket =  () => {
+		ticketsSelected.forEach( function(ticket, indice) {
+			try {
+				api.delete(`/tickets/${ticket.id}`);
+			} catch (err) {
+				toastError(err);
+			}
+		});
 	};
 
 	return (
@@ -151,6 +194,22 @@ const TicketsManager = () => {
 				modalOpen={newTicketModalOpen}
 				onClose={e => setNewTicketModalOpen(false)}
 			/>
+			<ConfirmationModal
+				title={"Cambio de estatus masivo"}
+				open={confirmationOpen}
+				onClose={() => {setConfirmationOpen(false);}}
+				onConfirm={() => {handleUpdateTicketStatus()}}
+			>
+				{"¿Desea cambiar el estatus de los tickets seleccionados a "+selectedTagIds+"?"}
+			</ConfirmationModal>
+			<ConfirmationModal
+				title={"Borrado masivo"}
+				open={confirmationDelete}
+				onClose={() => {setConfirmationDelete(false);}}
+				onConfirm={() => {handleDeleteTicket()}}
+			>
+				{"¿Desea eliminar los tickets seleccionados permanentemente ?"}
+			</ConfirmationModal>
 			<Paper elevation={0} square className={classes.tabsHeader}>
 				<Tabs
 					value={tab}
@@ -200,13 +259,43 @@ const TicketsManager = () => {
 					</div>
 				) : (
 					<>
-						<Button
+						{/*<Button
 							variant="outlined"
 							color="primary"
 							onClick={() => setNewTicketModalOpen(true)}
 						>
 							{i18n.t("ticketsManager.buttons.newTicket")}
+						</Button>*/}
+						<Button
+							variant="outlined"
+							color="primary"
+							onClick={() =>{ 
+								setTicketsSelected([]);
+								setUpdateTickets(!updateTickets);
+								
+							}}
+						>
+							{updateTickets ? "Cancelar" : "Actualizar"
+
+							}
+							
 						</Button>
+
+						{updateTickets ? <Button
+							variant="outlined"
+							color="primary"
+							onClick={() =>{ 
+								if(ticketsSelected.length == 0){
+									alert("Debes seleccionar al menos un ticket");
+									return;
+								}
+								setConfirmationDelete(!confirmationDelete);
+								
+							}}
+						>
+							{"Borrar"}
+							
+						</Button>: ""}
 						{/*<Can
 							role={user.profile}
 							perform="tickets-manager:showall"
@@ -230,30 +319,58 @@ const TicketsManager = () => {
 								/>*/}
 					</>
 				)}
-				<TicketsQueueSelect
-					style={{ marginLeft: 6 }}
-					selectedQueueIds={selectedQueueIds}
-					userQueues={user?.queues}
-					onChange={values => setSelectedQueueIds(values)}
-				/>
-				<TicketsTagSelect
+				{!updateTickets ?
+						<TicketsQueueSelect
+						style={{ marginLeft: 6 }}
+						selectedQueueIds={selectedQueueIds}
+						userQueues={user?.queues}
+						onChange={values => setSelectedQueueIds(values)}
+					/> 
+					:""}
+				{!updateTickets ?
+					<TicketsTagSelect
 					style={{ marginLeft: 6 }}
 					selectedQueueIds={selectedTagIds}
 					userTags={userTagIds}
 					onChange={values => setSelectedTagIds(values)}
+					placeholder ={selectedTagIds}
 				/>
+			:""}
+			{updateTickets ?
+					<TicketsTagSelect
+					style={{ marginLeft: 6 }}
+					selectedQueueIds={selectedTagIds}
+					userTags={userTagIds}
+					onChange={values => {
+						if(ticketsSelected.length == 0){
+							alert("Debes seleccionar al menos un ticket");
+							return;
+						}
+						setSelectedTagIds(values);
+						setConfirmationOpen(true);
+					}}
+					placeholder ={selectedTagIds}
+				/>
+			:""}
+			
+				
+				
 			</Paper>
 			<TabPanel value={tab} name="open" className={classes.ticketsWrapper}>
 				<TicketsList
 					status={selectedTagIds}
 					showAll={showAllTickets}
 					selectedQueueIds={selectedQueueIds}
+					ticketsSelected = {ticketsSelected}
+					updateTickets = {updateTickets}
+					ticketTags={userTagIds}
 				/>
 			
 			</TabPanel>
 			<TabPanel value={tab} name="pending" className={classes.ticketsWrapper}>
 
-				<TicketsList status="pending" selectedQueueIds={selectedQueueIds} />
+				<TicketsList status="pending" selectedQueueIds={selectedQueueIds} ticketsSelected = {ticketsSelected}
+					updateTickets = {updateTickets} ticketTags={userTagIds}/>
 			
 			</TabPanel>
 			<TabPanel value={tab} name="closed" className={classes.ticketsWrapper}>
@@ -261,6 +378,7 @@ const TicketsManager = () => {
 					status="closed"
 					showAll={true}
 					selectedQueueIds={selectedQueueIds}
+					ticketTags={userTagIds}
 				/>
 			</TabPanel>
 			<TabPanel value={tab} name="search" className={classes.ticketsWrapper}>
@@ -268,6 +386,7 @@ const TicketsManager = () => {
 					searchParam={searchParam}
 					showAll={true}
 					selectedQueueIds={selectedQueueIds}
+					ticketTags={userTagIds}
 				/>
 			</TabPanel>
 		</Paper>

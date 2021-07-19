@@ -6,13 +6,13 @@ import Ticket from "../../models/Ticket";
 
 interface Request {
   wpId: number;
-  number: string;
+  num: string;
   msg: string;
 }
 
 const SendWhatsAppMassive = async ({
   wpId,
-  number,
+  num,
   msg
 }: Request): Promise<WbotMessage> => {
   try {
@@ -31,11 +31,11 @@ const SendWhatsAppMassive = async ({
     fs.unlinkSync(media.path);*/
 
     const body = `\u200e${msg}`;
-    const sentMessage = await wbot.sendMessage(`${number}@c.us`, body);
+    const sentMessage = await wbot.sendMessage(`${num}@c.us`, body);
 
     return sentMessage;
   } catch (err) {
-    throw new AppError("ERR_SENDING_WAPP_MSG");
+    throw new AppError("ERR_SENDING_WAPP_MSG"+err);
   }
 };
 

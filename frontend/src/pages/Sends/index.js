@@ -101,8 +101,6 @@ const Sends = () => {
 	const classes = useStyles();
 
 
-	const [queueModalOpen, setQueueModalOpen] = useState(false);
-	const [selectedQueue, setSelectedQueue] = useState(null);
     const [csvFile, setCsvFile] =  useState([]);
     const [clients, setClients] =  useState([]);
     const [marcacion, Setmarcacion] =  useState("521");
@@ -136,9 +134,10 @@ const Sends = () => {
                 reader.onload = function(e) {
                 
                     cl = reader.result.split("\n");
-                    for(let j =0;j<=cl[0].length;j++){
+                   
+                    for(let j =0;j<cl.length;j++){
                         let a = cl[j].replace(/\r?\n|\r/g, "");
-                        cl[j] = a.split("|");
+                        cl[j] = a.split(";");
                         
                     }
         
@@ -146,6 +145,7 @@ const Sends = () => {
                 }
         
                 reader.readAsText(files[0]);
+               
                 setCsvFile(files);
             }catch(err){
                 toastError("El archivo csv no tiene el formato correcto\n"+err);
@@ -228,22 +228,47 @@ const Sends = () => {
         finalData.message = message;
         finalData.speachs = sepachs;
         finalData.marcacion = marcacion;
-        console.log(finalData);
+        finalData.queue = selectedQueueIds;
+        
+        
 
     
-        /*try {
-            let values = {
+        try {
+            console.log(sepachs);
+            let speachcount = 0;
+            for(let i = 0; i< finalData.clients.length; i++){
+
+                let msgtemp = message;
+                for (let [key, value] of Object.entries(sepachs)) {
+                  
+                    if(value[speachcount]!=""){
+                        msgtemp = msgtemp.replace("$"+key,value[speachcount]);
+                    }
+                   
+                }
+                if(typeof(sepachs["SPEACH1"])!=='undefined'){
+                    if(speachcount==sepachs["SPEACH1"].length-1){
+                        speachcount=0;
+                    }else{
+                        speachcount++;
+                    }
+                }
                 
-                wpId:wpId,
-                number:clients[0][1],
-                msg: message
+               
+                let values = {
+                
+                    wpId:selectedQueueIds[0],
+                    num:finalData.marcacion+clients[i][1],
+                    msg: msgtemp
+                }
+                //console.log(values);
+                const { data } =  api.post("/messagesend", values);
             }
-            const { data } = await api.post("/messagesend", values);
-            console.log(data);
-            toast.success(i18n.t("contactModal.success"));
+           
+           // toast.success(i18n.t("contactModal.success"));
         } catch (err) {
             toastError(err);
-        }*/
+        }
         
     }
 

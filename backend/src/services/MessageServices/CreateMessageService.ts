@@ -12,13 +12,9 @@ interface MessageData {
   mediaType?: string;
   mediaUrl?: string;
 }
-interface info{ wpId: number;
-  num: string;
-  msg: string
-};
+
 interface Request {
   messageData: MessageData;
-  info: info;
 }
 
 const CreateMessageService = async ({

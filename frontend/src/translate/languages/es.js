@@ -199,7 +199,7 @@ const messages = {
 				},
 			},
 			ticketsQueueSelect: {
-				placeholder: "Linhas",
+				placeholder: "Departamentos",
 			},
 			ticketsTagsSelect: {
 				placeholder: "Etiquetas",
@@ -258,10 +258,11 @@ const messages = {
 					connections: "Conexiones",
 					tickets: "Tickets",
 					contacts: "Contactos",
-					queues: "Linhas",
+					queues: "Departamentos",
 					tags: "Etiquetas",
 					administration: "Administración",
 					users: "Usuarios",
+					envio: "Envio Masivo",
 					settings: "Configuración",
 				},
 				appBar: {
@@ -275,7 +276,7 @@ const messages = {
 				noTickets: "Sin notificaciones.",
 			},
 			queues: {
-				title: "Linhas",
+				title: "Departamentos",
 				table: {
 					name: "Nombre",
 					color: "Color",
@@ -292,7 +293,7 @@ const messages = {
 				},
 			},
 			queueSelect: {
-				inputLabel: "Linhas",
+				inputLabel: "Departamentos",
 			},
 			tags: {
 				title: "Etiquetas",

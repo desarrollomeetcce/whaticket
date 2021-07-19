@@ -88,7 +88,7 @@ const TicketActionButtons = ({ ticket }) => {
 					loading={loading}
 					startIcon={<Replay />}
 					size="small"
-					onClick={e => handleUpdateTicketStatus(e, "open", user?.id)}
+					onClick={e => handleUpdateTicketStatus(e, tickettag[0].name, user?.id)}
 				>
 					{i18n.t("messagesList.header.buttons.reopen")}
 				</ButtonWithSpinner>

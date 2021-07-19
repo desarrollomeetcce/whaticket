@@ -22,7 +22,7 @@ import MarkdownWrapper from "../MarkdownWrapper";
 import { Tooltip } from "@material-ui/core";
 import { AuthContext } from "../../context/Auth/AuthContext";
 import toastError from "../../errors/toastError";
-
+import {Checkbox} from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
 	ticket: {
 		position: "relative",
@@ -101,7 +101,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const TicketListItem = ({ ticket }) => {
+const TicketListItem = ({ ticket,ticketsSelected = [],updateTickets,ticketTags }) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const [loading, setLoading] = useState(false);
@@ -109,10 +109,12 @@ const TicketListItem = ({ ticket }) => {
 	const isMounted = useRef(true);
 	const { user } = useContext(AuthContext);
 
+
 	useEffect(() => {
 		return () => {
 			console.log(ticket);
 			isMounted.current = false;
+		
 		};
 	}, []);
 
@@ -120,10 +122,11 @@ const TicketListItem = ({ ticket }) => {
 		setLoading(true);
 		try {
 			await api.put(`/tickets/${id}`, {
-				status: "open",
+				status: ticketTags[0].name,
 				userId: user?.id,
 			});
 		} catch (err) {
+			console.log(err);
 			setLoading(false);
 			toastError(err);
 		}
@@ -135,6 +138,18 @@ const TicketListItem = ({ ticket }) => {
 
 	const handleSelectTicket = id => {
 		history.push(`/tickets/${id}`);
+	};
+
+	const addTicket = ticket => {
+		if(ticketsSelected.indexOf(ticket) == -1){
+			console.log("Se agregó ticket");
+			ticketsSelected.push(ticket);
+		}else{
+			console.log("Se elimino ticket");
+			ticketsSelected.splice(ticketsSelected.indexOf(ticket), 1);
+		}
+	
+		console.log(ticketsSelected);
 	};
 
 	return (
@@ -156,11 +171,19 @@ const TicketListItem = ({ ticket }) => {
 					placement="right"
 					title={ticket.queue?.name || "Sem fila"}
 				>
+					
 					<span
 						style={{ backgroundColor: ticket.queue?.color || "#7C7C7C" }}
 						className={classes.ticketQueueColor}
 					></span>
 				</Tooltip>
+				{updateTickets? <Checkbox			
+					size="small"
+					color="primary"
+					//checked={ticketsSelected.indexOf(ticket) > -1}
+					onChange={() => addTicket(ticket)}
+				/>:""}
+				
 				<ListItemAvatar>
 					<Avatar src={ticket?.contact?.profilePicUrl} />
 				</ListItemAvatar>
@@ -225,7 +248,7 @@ const TicketListItem = ({ ticket }) => {
 						</span>
 					}
 				/>
-				{ticket.status === "pending" && (
+				{ticket.status === "pending" && !updateTickets &&(
 					<ButtonWithSpinner
 						color="primary"
 						variant="contained"

@@ -18,18 +18,19 @@ const syncUnreadMessages = async (wbot: Session) => {
   /* eslint-disable no-restricted-syntax */
   /* eslint-disable no-await-in-loop */
   for (const chat of chats) {
-    if (chat.unreadCount > 0) {
+   // if (chat.unreadCount > 0) {
+    //  console.log(chat);
       const unreadMessages = await chat.fetchMessages({
         limit: chat.unreadCount
       });
-
+    
       for (const msg of unreadMessages) {
         await handleMessage(msg, wbot);
       }
 
       await chat.sendSeen();
     }
-  }
+ // }
 };
 
 export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {

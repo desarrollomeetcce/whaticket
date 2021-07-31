@@ -50,8 +50,8 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	tab: {
-		minWidth: 120,
-		width: 120,
+		minWidth: 90,
+		width: 90,
 	},
 
 	ticketOptionsBox: {

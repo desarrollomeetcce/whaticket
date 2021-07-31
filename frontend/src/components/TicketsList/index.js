@@ -177,12 +177,25 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds,ticketsSel
 	
 		if (!status && !searchParam) return;
 		let ticketsTemp = [];
-		tickets.forEach( function(ticket, indice) {
-			if(ticket.status === status){
-				ticketsTemp.push(ticket);
-			}
+
+		if(!searchParam){
 			
-		});
+			tickets.forEach( function(ticket, indice) {
+				if(ticket.status === status){
+					ticketsTemp.push(ticket);
+				}
+				
+			});
+		}else{
+			tickets.forEach( function(ticket, indice) {
+				
+					ticketsTemp.push(ticket);
+				
+				
+			});
+			console.log(ticketsTemp);
+		}
+		
 		dispatch({
 			type: "LOAD_TICKETS",
 			payload: ticketsTemp,
@@ -314,9 +327,9 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds,ticketsSel
 					) : (
 						<>
 							{ticketsList.map(ticket => (
-								ticket.status === status ?
+								
 								<TicketListItem ticket={ticket} key={ticket.id} ticketsSelected={ticketsSelected} updateTickets={updateTickets} ticketTags={ticketTags}/>
-								:""
+								
 									
 								
 							))}

@@ -22,6 +22,7 @@ import FindOrCreateTicketService from "../TicketServices/FindOrCreateTicketServi
 import ShowWhatsAppService from "../WhatsappService/ShowWhatsAppService";
 import { debounce } from "../../helpers/Debounce";
 import UpdateTicketService from "../TicketServices/UpdateTicketService";
+import { Console } from "console";
 
 interface Session extends Client {
   id?: number;
@@ -66,19 +67,26 @@ const verifyMediaMessage = async (
   contact: Contact
 ): Promise<Message> => {
   const quotedMsg = await verifyQuotedMessage(msg);
-
-  const media = await msg.downloadMedia();
-
+  console.log("comienza descarga");
+  let media;
+  try{ media = await msg.downloadMedia();}
+  catch (err) {
+    logger.error(err);
+  }
+  
+  console.log("se descarga mensaje");
   if (!media) {
     throw new Error("ERR_WAPP_DOWNLOAD_MEDIA");
   }
 
   if (!media.filename) {
+    console.log("se pone nombre");
     const ext = media.mimetype.split("/")[1].split(";")[0];
     media.filename = `${new Date().getTime()}.${ext}`;
   }
 
   try {
+    console.log("se sincroniza archivo");
     await writeFileAsync(
       join(__dirname, "..", "..", "..", "public", media.filename),
       media.data,
@@ -231,7 +239,7 @@ const handleMessage = async (
     }
 
     const chat = await msg.getChat();
-
+    console.log(msg);
     if (chat.isGroup) {
       let msgGroupContact;
 
@@ -253,13 +261,15 @@ const handleMessage = async (
       unreadMessages,
       groupContact
     );
-
+    console.log("Linea 257");
     if (msg.hasMedia) {
+      console.log("Comienza");
       await verifyMediaMessage(msg, ticket, contact);
+      console.log("termina");
     } else {
       await verifyMessage(msg, ticket, contact);
     }
-
+    console.log("Linea 263");
     const whatsapp = await ShowWhatsAppService(wbot.id!);
 
     if (

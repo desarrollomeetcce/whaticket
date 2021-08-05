@@ -66,7 +66,7 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
 
 export const sendMsg = async (req: Request, res: Response): Promise<Response> => {
 
-  console.log(req.body);
+  //console.log(req.body);
   const {wpId,num,msg}: MessageMassive= req.body;
 
  

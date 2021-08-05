@@ -14,23 +14,25 @@ const sessions: Session[] = [];
 
 const syncUnreadMessages = async (wbot: Session) => {
   const chats = await wbot.getChats();
-
+  let limitChat = 2;
   /* eslint-disable no-restricted-syntax */
   /* eslint-disable no-await-in-loop */
   for (const chat of chats) {
-   // if (chat.unreadCount > 0) {
-    //  console.log(chat);
-      const unreadMessages = await chat.fetchMessages({
-        limit: chat.unreadCount
-      });
-    
-      for (const msg of unreadMessages) {
-        await handleMessage(msg, wbot);
-      }
-
-      await chat.sendSeen();
+    if (chat.unreadCount > 0) {
+     // console.log(chat);
+     limitChat = chat.unreadCount;
+     const unreadMessages = await chat.fetchMessages({
+      limit: limitChat
+    });
+  
+    for (const msg of unreadMessages) {
+      await handleMessage(msg, wbot);
     }
- // }
+
+    await chat.sendSeen();
+    }
+    
+  }
 };
 
 export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
@@ -144,7 +146,7 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
 
 export const getWbot = (whatsappId: number): Session => {
   const sessionIndex = sessions.findIndex(s => s.id === whatsappId);
-  console.log(sessions);
+ // console.log(sessions);
   if (sessionIndex === -1) {
     throw new AppError("ERR_WAPP_NOT_INITIALIZED");
   }

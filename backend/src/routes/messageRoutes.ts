@@ -24,6 +24,10 @@ messageRoutes.post(
   upload.array("medias"),
   MessageController.sendMsg
 );
+messageRoutes.post(
+  "/messageToken",
+  MessageController.sendMsgToken
+);
 
 messageRoutes.delete("/messages/:messageId", isAuth, MessageController.remove);
 

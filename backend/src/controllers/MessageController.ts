@@ -77,6 +77,14 @@ export const sendMsg = async (req: Request, res: Response): Promise<Response> =>
   return res.send();
 };
 
+export const sendMsgToken = async (req: Request, res: Response): Promise<Response> => {
+
+  console.log("Se detecto un mensaje a enviar");
+  console.log(req.body);
+  return res.send();
+};
+
+
 export const remove = async (
   req: Request,
   res: Response

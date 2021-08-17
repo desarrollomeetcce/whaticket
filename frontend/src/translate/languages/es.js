@@ -134,6 +134,27 @@ const messages = {
 					actions: "Acciones",
 				},
 			},
+			msgPage: {
+				title: "Mensajes programados",
+				toasts: {
+					deleted: "¡Mensaje borrado satisfactoriamente!",
+				},
+				searchPlaceholder: "Buscar...",
+				confirmationModal: {
+					deleteTitle: "Borrar",
+					
+					deleteMessage:
+						"¿Estás seguro que deseas borrar este mensaje?",
+				},
+				table: {
+					name: "Nombre",
+					whatsapp: "WhatsApp",
+					msg: "Mensaje",
+					date: "Fecha de envio",
+					actions: "Acciones",
+					status: "Estatus",
+				},
+			},
 			contactModal: {
 				title: {
 					add: "Agregar contacto",
@@ -260,6 +281,7 @@ const messages = {
 					contacts: "Contactos",
 					queues: "Departamentos",
 					tags: "Etiquetas",
+					msg: "Mensajes programados",
 					administration: "Administración",
 					users: "Usuarios",
 					envio: "Envio Masivo",
@@ -375,6 +397,7 @@ const messages = {
 			ticketOptionsMenu: {
 				delete: "Borrar",
 				transfer: "Transferir",
+				programMsg: "Programar mensaje",
 				confirmationModal: {
 					title: "¿Borrar ticket #",
 					titleFrom: "del contacto ",

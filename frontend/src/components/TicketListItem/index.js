@@ -112,7 +112,6 @@ const TicketListItem = ({ ticket,ticketsSelected = [],updateTickets,ticketTags }
 
 	useEffect(() => {
 		return () => {
-			console.log(ticket);
 			isMounted.current = false;
 		
 		};

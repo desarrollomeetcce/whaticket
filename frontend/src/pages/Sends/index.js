@@ -227,7 +227,7 @@ const Sends = () => {
         }
         //Validar mensaje
         if(message==""){
-            err["message"]["data"] = "El mensaje no peude estar vacio";
+            err["message"]["data"] = "El mensaje no puede estar vacio";
             toastError(err);
             return false;
         }

@@ -10,10 +10,12 @@ import TransferTicketModal from "../TransferTicketModal";
 import toastError from "../../errors/toastError";
 import { Can } from "../Can";
 import { AuthContext } from "../../context/Auth/AuthContext";
+import ProgramMsgModal from "../ProgramMsgModal";
 
 const TicketOptionsMenu = ({ ticket, menuOpen, handleClose, anchorEl }) => {
 	const [confirmationOpen, setConfirmationOpen] = useState(false);
 	const [transferTicketModalOpen, setTransferTicketModalOpen] = useState(false);
+	const [openProgramModal, setOpenProgramModal] = useState(false);
 	const isMounted = useRef(true);
 	const { user } = useContext(AuthContext);
 
@@ -41,6 +43,15 @@ const TicketOptionsMenu = ({ ticket, menuOpen, handleClose, anchorEl }) => {
 		handleClose();
 	};
 
+	const handleOpenProgramModal = e => {
+		setOpenProgramModal(true);
+		handleClose();
+	};
+	const handleCloseProgramModal = () => {
+		if (isMounted.current) {
+			setOpenProgramModal(false);
+		}
+	};
 	const handleCloseTransferTicketModal = () => {
 		if (isMounted.current) {
 			setTransferTicketModalOpen(false);
@@ -65,9 +76,13 @@ const TicketOptionsMenu = ({ ticket, menuOpen, handleClose, anchorEl }) => {
 				open={menuOpen}
 				onClose={handleClose}
 			>
+				<MenuItem onClick={handleOpenProgramModal}>
+					{i18n.t("ticketOptionsMenu.programMsg")}
+				</MenuItem>
 				<MenuItem onClick={handleOpenTransferModal}>
 					{i18n.t("ticketOptionsMenu.transfer")}
 				</MenuItem>
+				
 				<Can
 					role={user.profile}
 					perform="ticket-options:deleteTicket"
@@ -93,6 +108,13 @@ const TicketOptionsMenu = ({ ticket, menuOpen, handleClose, anchorEl }) => {
 			<TransferTicketModal
 				modalOpen={transferTicketModalOpen}
 				onClose={handleCloseTransferTicketModal}
+				ticketid={ticket.id}
+			/>
+			<ProgramMsgModal
+				user ={user} 
+				ticket = {ticket}
+				modalOpen={openProgramModal}
+				onClose={handleCloseProgramModal}
 				ticketid={ticket.id}
 			/>
 		</>

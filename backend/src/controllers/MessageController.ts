@@ -68,7 +68,7 @@ export const sendMsg = async (req: Request, res: Response): Promise<Response> =>
 
   //console.log(req.body);
   const {wpId,num,msg}: MessageMassive= req.body;
-
+  
  
   await SendWhatsAppMassive({ wpId, num,msg});
 

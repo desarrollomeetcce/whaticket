@@ -116,9 +116,14 @@ const MainListItems = () => {
 							primary={i18n.t("mainDrawer.listItems.queues")}
 							icon={<BusinessIcon />}
 						/>
-							<ListItemLink
+						<ListItemLink
 							to="/tags"
 							primary={i18n.t("mainDrawer.listItems.tags")}
+							icon={<AccountTreeOutlinedIcon />}
+						/>
+						<ListItemLink
+							to="/Msg"
+							primary={i18n.t("mainDrawer.listItems.msg")}
 							icon={<AccountTreeOutlinedIcon />}
 						/>
 						<ListItemLink

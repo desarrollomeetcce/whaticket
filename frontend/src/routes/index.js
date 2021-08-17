@@ -14,6 +14,7 @@ import Contacts from "../pages/Contacts/";
 import Queues from "../pages/Queues/";
 import Tags from "../pages/Tags/";
 import Sends from "../pages/Sends/";
+import ProgramatedMessage from "../pages/ProgramatedMessages";
 import { AuthProvider } from "../context/Auth/AuthContext";
 import { WhatsAppsProvider } from "../context/WhatsApp/WhatsAppsContext";
 import Route from "./Route";
@@ -45,6 +46,7 @@ const Routes = () => {
 							<Route exact path="/Settings" component={Settings} isPrivate />
 							<Route exact path="/Queues" component={Queues} isPrivate />
 							<Route exact path="/Tags" component={Tags} isPrivate />
+							<Route exact path="/Msg" component={ProgramatedMessage} isPrivate />
 							<Route exact path="/Sending" component={Sends} isPrivate/>
 						</LoggedInLayout>
 					</WhatsAppsProvider>

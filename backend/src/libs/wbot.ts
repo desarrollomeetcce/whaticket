@@ -47,16 +47,18 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
       if (whatsapp && whatsapp.session) {
         sessionCfg = JSON.parse(whatsapp.session);
       }
-
-      const wbot: Session = new Client({
+      const puppeteerOptions = {
         session: sessionCfg,
         puppeteer: {
-          args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-          ]
+          executablePath: process.env.CHROME_BIN || undefined,
+          args: ['--no-sandbox', '--disable-setuid-sandbox']
+         
         }
-      });
+      };
+        
+     
+    
+      const wbot: Session = new Client(puppeteerOptions);
 
       wbot.initialize();
 

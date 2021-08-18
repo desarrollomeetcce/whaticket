@@ -10,7 +10,7 @@ import DeleteWhatsAppMessage from "../services/WbotServices/DeleteWhatsAppMessag
 import SendWhatsAppMassive from "../services/WbotServices/SendWhatsAppMassive";
 import SendWhatsAppMedia from "../services/WbotServices/SendWhatsAppMedia";
 import SendWhatsAppMessage from "../services/WbotServices/SendWhatsAppMessage";
-
+import SendWhatsAppApi from "../services/WbotServices/SendWhatsAppApi";
 type IndexQuery = {
   pageNumber: string;
 };
@@ -26,6 +26,10 @@ type MessageMassive = {
   wpId: number;
   num: string;
   msg: string;
+};
+
+type MessageToken = {
+  phone: string;
 };
 
 export const index = async (req: Request, res: Response): Promise<Response> => {
@@ -79,8 +83,10 @@ export const sendMsg = async (req: Request, res: Response): Promise<Response> =>
 
 export const sendMsgToken = async (req: Request, res: Response): Promise<Response> => {
 
-  console.log("Se detecto un mensaje a enviar");
-  console.log(req.body);
+  const { token } = req.params;
+  const {phone}: MessageToken= req.body;
+
+  await SendWhatsAppApi({token, phone});
   return res.send();
 };
 

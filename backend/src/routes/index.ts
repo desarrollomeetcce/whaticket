@@ -11,6 +11,8 @@ import whatsappSessionRoutes from "./whatsappSessionRoutes";
 import queueRoutes from "./queueRoutes";
 import tagRoutes from "./tagRoutes";
 import programatedMsgRoutes from "./programatedMessageRoutes";
+import whatsappTokensRoutes from "./whatsappTokensRoutes";
+
 const routes = Router();
 
 routes.use(userRoutes);
@@ -20,8 +22,8 @@ routes.use(contactRoutes);
 routes.use(ticketRoutes);
 routes.use(whatsappRoutes);
 routes.use(messageRoutes);
-routes.use(messageRoutes);
 routes.use(whatsappSessionRoutes);
+routes.use(whatsappTokensRoutes);
 routes.use(queueRoutes);
 routes.use(tagRoutes);
 routes.use(programatedMsgRoutes);

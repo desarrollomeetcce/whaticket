@@ -9,6 +9,8 @@ import Message from "../models/Message";
 import Queue from "../models/Queue";
 import Tag from "../models/Tag";
 import ProgramatedMessage from "../models/ProgramatedMessage";
+import WhaticketApiToken from "../models/WhaticketApiToken"
+import WhaticketApiMessage from "../models/WhaticketApiMessage";
 import WhatsappQueue from "../models/WhatsappQueue";
 import UserQueue from "../models/UserQueue";
 
@@ -29,6 +31,8 @@ const models = [
   Queue,
   Tag,
   ProgramatedMessage,
+  WhaticketApiToken,
+  WhaticketApiMessage,
   WhatsappQueue,
   UserQueue
 ];

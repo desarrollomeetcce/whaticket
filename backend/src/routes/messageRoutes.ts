@@ -25,7 +25,7 @@ messageRoutes.post(
   MessageController.sendMsg
 );
 messageRoutes.post(
-  "/messageToken",
+  "/messageToken/:token",
   MessageController.sendMsgToken
 );
 

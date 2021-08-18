@@ -285,6 +285,7 @@ const messages = {
 					administration: "Administración",
 					users: "Usuarios",
 					envio: "Envio Masivo",
+					whaticketApi: "Whaticket API",
 					settings: "Configuración",
 				},
 				appBar: {

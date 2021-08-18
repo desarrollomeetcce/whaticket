@@ -16,7 +16,7 @@ import {
 import Queue from "./Queue";
 import Ticket from "./Ticket";
 import WhatsappQueue from "./WhatsappQueue";
-
+import WhaticketApiToken from "./WhaticketApiToken";
 @Table
 class Whatsapp extends Model<Whatsapp> {
   @PrimaryKey
@@ -69,6 +69,9 @@ class Whatsapp extends Model<Whatsapp> {
 
   @HasMany(() => WhatsappQueue)
   whatsappQueues: WhatsappQueue[];
+
+  @HasMany(() => WhaticketApiToken)
+  whatsappToken: WhaticketApiToken[];
 }
 
 export default Whatsapp;

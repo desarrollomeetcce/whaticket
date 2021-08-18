@@ -132,6 +132,11 @@ const MainListItems = () => {
 							icon={<SendIcon />}
 						/>
 						<ListItemLink
+							to="/whaticketapi"
+							primary={i18n.t("mainDrawer.listItems.whaticketApi")}
+							icon={<SendIcon />}
+						/>
+						<ListItemLink
 							to="/settings"
 							primary={i18n.t("mainDrawer.listItems.settings")}
 							icon={<SettingsOutlinedIcon />}

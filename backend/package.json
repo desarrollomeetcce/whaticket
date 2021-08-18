@@ -26,6 +26,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "http-graceful-shutdown": "^2.3.2",
+    "js-crypto-random": "^1.0.2",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",

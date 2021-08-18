@@ -17,6 +17,7 @@ import Sends from "../pages/Sends/";
 import ProgramatedMessage from "../pages/ProgramatedMessages";
 import { AuthProvider } from "../context/Auth/AuthContext";
 import { WhatsAppsProvider } from "../context/WhatsApp/WhatsAppsContext";
+import WhatappTokens from "../pages/WhatappTokens/";
 import Route from "./Route";
 
 const Routes = () => {
@@ -48,6 +49,8 @@ const Routes = () => {
 							<Route exact path="/Tags" component={Tags} isPrivate />
 							<Route exact path="/Msg" component={ProgramatedMessage} isPrivate />
 							<Route exact path="/Sending" component={Sends} isPrivate/>
+							<Route exact path="/whaticketapi" component={WhatappTokens} isPrivate/>
+							
 						</LoggedInLayout>
 					</WhatsAppsProvider>
 				</Switch>

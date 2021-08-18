@@ -19,6 +19,7 @@
     "mic-recorder-to-mp3": "^2.2.2",
     "moment": "^2.29.1",
     "qrcode.react": "^1.0.0",
+    "random-token": "0.0.8",
     "react": "^16.13.1",
     "react-color": "^2.19.3",
     "react-datepicker": "^4.1.1",

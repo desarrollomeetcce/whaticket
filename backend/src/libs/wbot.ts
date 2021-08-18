@@ -50,6 +50,12 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
 
       const wbot: Session = new Client({
         session: sessionCfg,
+        puppeteer: {
+          args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+          ]
+        }
       });
 
       wbot.initialize();

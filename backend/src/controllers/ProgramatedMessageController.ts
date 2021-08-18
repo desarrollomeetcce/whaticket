@@ -6,8 +6,15 @@ import ListProgramatedMessageService from "../services/ProgramatedMessageService
 import ShowProgramatedMessageService from "../services/ProgramatedMessageService/ShowProgramatedMessageService";
 import UpdateProgramatedMessageService from "../services/ProgramatedMessageService/UpdateProgramatedMessageService";
 
+type IndexQuery = {
+  searchParam: string;
+  pageNumber: string;
+
+};
+
 export const index = async (req: Request, res: Response): Promise<Response> => {
-  const messages = await ListProgramatedMessageService();
+  const  {searchParam, pageNumber} = req.query as IndexQuery;
+  const messages = await ListProgramatedMessageService(searchParam,pageNumber);
 
   return res.status(200).json(messages);
 };

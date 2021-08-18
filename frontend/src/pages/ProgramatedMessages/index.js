@@ -153,46 +153,21 @@ const Contacts = () => {
 		setSearchParam(event.target.value.toLowerCase());
 	};
 
-	const handleOpenContactModal = () => {
-		setSelectedContactId(null);
-		setContactModalOpen(true);
-	};
-
 	const handleCloseContactModal = () => {
 		setSelectedContactId(null);
 		setContactModalOpen(false);
 	};
 
-	const handleSaveTicket = async contactId => {
-		if (!contactId) return;
-		setLoading(true);
-		try {
-			const { data: ticket } = await api.post("/tickets", {
-				contactId: contactId,
-				userId: user?.id,
-				status: "open",
-			});
-			history.push(`/tickets/${ticket.id}`);
-		} catch (err) {
-			toastError(err);
-		}
-		setLoading(false);
-	};
 
-	const hadleEditContact = contactId => {
-		setSelectedContactId(contactId);
-		setContactModalOpen(true);
-	};
-
-	const handleDeleteContact = async msgId => {
+	const handleDeleteMsg = async msgId => {
 		try {
 			await api.delete(`/programatedMsg/${msgId}`);
-			toast.success(i18n.t("msgPage.toasts.deleted"));
+			toast.success(i18n.t("Mensaje eliminado"));
 		} catch (err) {
 			toastError(err);
 		}
 		setDeletingContact(null);
-		setSearchParam("");
+		setSearchParam(" ");
 		setPageNumber(1);
 	};
 
@@ -287,21 +262,15 @@ const Contacts = () => {
 										>
 											<EditIcon />
 										</IconButton>*/}
-										<Can
-											role={user.profile}
-											perform="contacts-page:deleteContact"
-											yes={() => (
-												<IconButton
-													size="small"
-													onClick={e => {
-														setConfirmOpen(true);
-														setDeletingContact(contact);
-													}}
-												>
-													<DeleteOutlineIcon />
-												</IconButton>
-											)}
-										/>
+										
+										<IconButton
+											size="small"
+											onClick={() => handleDeleteMsg(contact.id)}
+										>
+											<DeleteOutlineIcon />
+										</IconButton>
+										
+									
 									</TableCell>
 								</TableRow>
 							))}

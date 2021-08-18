@@ -8,7 +8,8 @@ import {Contact as WbotContact} from "whatsapp-web.js";
 import Contact from "../../models/Contact";
 import CreateOrUpdateContactService from "../ContactServices/CreateOrUpdateContactService";
 import FindOrCreateTicketService from "../TicketServices/FindOrCreateTicketService";
-import {verifyQueue,handleMessage} from "../WbotServices/wbotMessageListener"
+import {verifyQueue,handleMessage} from "../WbotServices/wbotMessageListener";
+import CreateMessageService from "../MessageServices/CreateMessageService";
 interface Request {
   wpId: number;
   num: string;
@@ -63,6 +64,18 @@ const SendWhatsAppMassive = async ({
     const body = `\u200e${msg}`;
     const sentMessage = await wbot.sendMessage(`${num}@c.us`, body);
 
+    const messageData = {
+      id: sentMessage.id.id,
+      ticketId: ticket.id,
+      contactId: sentMessage.fromMe ? undefined : contact.id,
+      body: sentMessage.body,
+      fromMe: sentMessage.fromMe,
+      mediaType: sentMessage.type,
+      read: sentMessage.fromMe,
+    
+    };
+
+    await CreateMessageService({messageData});
     
     await ticket.update({ lastMessage: body });
     await verifyQueue(wbot, sentMessage, ticket, contact);

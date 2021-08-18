@@ -15,8 +15,9 @@ import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import ContactPhoneOutlinedIcon from "@material-ui/icons/ContactPhoneOutlined";
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import SendIcon from '@material-ui/icons/Send';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import BusinessIcon from '@material-ui/icons/Business';
-
+import BlurLinearIcon from '@material-ui/icons/BlurLinear';
 import { i18n } from "../translate/i18n";
 import { WhatsAppsContext } from "../context/WhatsApp/WhatsAppsContext";
 import { AuthContext } from "../context/Auth/AuthContext";
@@ -124,7 +125,7 @@ const MainListItems = () => {
 						<ListItemLink
 							to="/Msg"
 							primary={i18n.t("mainDrawer.listItems.msg")}
-							icon={<AccountTreeOutlinedIcon />}
+							icon={<AccessTimeIcon />}
 						/>
 						<ListItemLink
 							to="/sending"
@@ -134,7 +135,7 @@ const MainListItems = () => {
 						<ListItemLink
 							to="/whaticketapi"
 							primary={i18n.t("mainDrawer.listItems.whaticketApi")}
-							icon={<SendIcon />}
+							icon={<BlurLinearIcon />}
 						/>
 						<ListItemLink
 							to="/settings"

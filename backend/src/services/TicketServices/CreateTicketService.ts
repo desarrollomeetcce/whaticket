@@ -17,6 +17,8 @@ const CreateTicketService = async ({
 }: Request): Promise<Ticket> => {
   const defaultWhatsapp = await GetDefaultWhatsApp();
 
+  console.log(defaultWhatsapp);
+  
   await CheckContactOpenTickets(contactId);
 
   const { isGroup } = await ShowContactService(contactId);

@@ -40,7 +40,8 @@ const UpdateTicketService = async ({
 
   await ticket.update({
     status,
-    userId
+    userId,
+    queueId
   });
 
   await ticket.reload();

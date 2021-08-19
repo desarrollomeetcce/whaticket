@@ -13,7 +13,7 @@ const ShowWhatsAppService = async (id: string | number): Promise<Whatsapp> => {
     ],
     order: [["queues", "name", "ASC"]]
   });
-
+  console.log(whatsapp?.queues);
   if (!whatsapp) {
     throw new AppError("ERR_NO_WAPP_FOUND", 404);
   }

@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import api from "../../services/api";
 import { i18n } from "../../translate/i18n.js";
 import toastError from "../../errors/toastError";
+import { Input } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -37,17 +38,21 @@ const Settings = () => {
 	const classes = useStyles();
 
 	const [settings, setSettings] = useState([]);
+	const [limitChat, setLimitChat] = useState(0);
 
 	useEffect(() => {
 		const fetchSession = async () => {
 			try {
 				const { data } = await api.get("/settings");
 				setSettings(data);
+				const { value } = data.find(s => s.key === "limitChat");
+				setLimitChat(value);
 			} catch (err) {
 				toastError(err);
 			}
 		};
 		fetchSession();
+		
 	}, []);
 
 	useEffect(() => {
@@ -83,10 +88,30 @@ const Settings = () => {
 		}
 	};
 
+	const handleChangeLimit = async newValue => {
+		
+		console.log(newValue);
+		try {
+			await api.put(`/settings/limitChat`, {
+				value: newValue,
+			});
+			toast.success(i18n.t("settings.success"));
+		} catch (err) {
+			toastError(err);
+		}
+	};
+
 	const getSettingValue = key => {
 		const { value } = settings.find(s => s.key === key);
 		return value;
 	};
+
+	const _handleKeyDown =  e=> {
+		if (e.key === 'Enter') {
+			
+			handleChangeLimit(limitChat);
+		}
+	  }
 
 	return (
 		<div className={classes.root}>
@@ -117,8 +142,59 @@ const Settings = () => {
 							{i18n.t("settings.settings.userCreation.options.disabled")}
 						</option>
 					</Select>
+					
+				</Paper>
+				<Paper className={classes.paper}>
+					<Typography variant="body1">
+						{i18n.t("Cargar solo chats no vistos")}
+					</Typography>
+					<Select
+						margin="dense"
+						variant="outlined"
+						native
+						id="onlyUnread-setting"
+						name="onlyUnread"
+						value={
+							settings && settings.length > 0 && getSettingValue("onlyUnread")
+						}
+						className={classes.settingOption}
+						onChange={handleChangeSetting}
+					>
+						<option value="enabled">
+							{i18n.t("settings.settings.userCreation.options.enabled")}
+						</option>
+						<option value="disabled">
+							{i18n.t("settings.settings.userCreation.options.disabled")}
+						</option>
+					</Select>
+					
+					
+				</Paper>
+				<Paper className={classes.paper}>
+					<Typography variant="body1">
+						{i18n.t("Número de mensajes recuperados")}
+					</Typography>
+					<Input
+						margin="dense"
+						variant="outlined"
+						native
+						id="limitChat-setting"
+						name="limitChat"
+						value={
+							limitChat
+						}
+						className={classes.settingOption}
+						onKeyDown={_handleKeyDown}
+						onChange={(e) => setLimitChat(e.target.value)}
+					>
+
+					</Input>
+					
+					
+					
 				</Paper>
 			</Container>
+			
 		</div>
 	);
 };

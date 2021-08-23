@@ -253,6 +253,7 @@ const messages = {
 					queues: "Queues",
 					administration: "Administration",
 					users: "Users",
+					whaticketApi: "PulpoCRM API",
 					settings: "Settings",
 				},
 				appBar: {

@@ -285,7 +285,7 @@ const messages = {
 					administration: "Administración",
 					users: "Usuarios",
 					envio: "Envio Masivo",
-					whaticketApi: "Whaticket API",
+					whaticketApi: "PulpoCRM API",
 					settings: "Configuración",
 				},
 				appBar: {

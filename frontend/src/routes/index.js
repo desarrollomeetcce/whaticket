@@ -49,7 +49,7 @@ const Routes = () => {
 							<Route exact path="/Tags" component={Tags} isPrivate />
 							<Route exact path="/Msg" component={ProgramatedMessage} isPrivate />
 							<Route exact path="/Sending" component={Sends} isPrivate/>
-							<Route exact path="/whaticketapi" component={WhatappTokens} isPrivate/>
+							<Route exact path="/api" component={WhatappTokens} isPrivate/>
 							
 						</LoggedInLayout>
 					</WhatsAppsProvider>

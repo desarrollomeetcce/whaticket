@@ -133,7 +133,7 @@ const MainListItems = () => {
 							icon={<SendIcon />}
 						/>
 						<ListItemLink
-							to="/whaticketapi"
+							to="/api"
 							primary={i18n.t("mainDrawer.listItems.whaticketApi")}
 							icon={<BlurLinearIcon />}
 						/>

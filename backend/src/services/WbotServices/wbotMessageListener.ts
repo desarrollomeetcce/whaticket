@@ -151,7 +151,7 @@ const verifyQueue = async (
       ticketData: { queueId: queues[0].id },
       ticketId: ticket.id
     });
-
+    console.log(queues[0].id);
     return;
   }
 
@@ -332,4 +332,4 @@ const wbotMessageListener = (wbot: Session): void => {
   });
 };
 
-export { wbotMessageListener, handleMessage,verifyQueue };
+export { wbotMessageListener, handleMessage,verifyQueue,verifyContact };

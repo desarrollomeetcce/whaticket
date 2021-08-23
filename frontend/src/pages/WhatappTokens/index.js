@@ -252,7 +252,7 @@ const WhatappTokens = () => {
 											
 											
 											<TableCell align="center">
-												{whatsApp.isDefault && (
+												{whatsApp.status=="CONNECTED" && (
 													<div className={classes.customTableCell}>
 														<CheckCircle style={{ color: green[500] }} />
 													</div>
@@ -268,21 +268,26 @@ const WhatappTokens = () => {
 											</TableCell>
 											<TableCell align="center">
 											
-											{whatsApp?.whatsappToken[0]?.id  ?
-												<IconButton
-												size="small"
-												onClick={() => handleEditWhatsApp(whatsApp)}
-											>
-												<Edit />
-											</IconButton>
-												: <Button
+											{whatsApp?.whatsappToken[0]?.id  &&
+													<IconButton
+													size="small"
+													onClick={() => handleEditWhatsApp(whatsApp)}
+												>
+													<Edit />
+													
+												</IconButton>
+													}
+											{whatsApp.status=="CONNECTED" ?
+												 !whatsApp?.whatsappToken[0]?.id?
+												<Button
 												size="small"
 												variant="contained"
 												color="primary"
-												onClick={() => handleOpenWhatsAppModal(whatsApp)}
-									>
-										{i18n.t("Generar url")}
-									</Button>}
+															onClick={() => handleOpenWhatsAppModal(whatsApp)}
+												>
+													{i18n.t("Generar url")}
+												</Button>:"" :"Pendiente"
+											}
 												
 
 											

@@ -5,33 +5,115 @@ import Whatsapp from "../models/Whatsapp";
 import AppError from "../errors/AppError";
 import { logger } from "../utils/logger";
 import { handleMessage } from "../services/WbotServices/wbotMessageListener";
+import Ticket from "../models/Ticket";
+import Setting from "../models/Setting";
+import Contact from "../models/Contact";
 
+import {
+  Contact as WbotContact,
+  Chat
+} from "whatsapp-web.js";
 interface Session extends Client {
   id?: number;
 }
 
 const sessions: Session[] = [];
 
+const readMessages = async(wbot: Session,chat: Chat,limitChat:number) =>{
+  const unreadMessages = await chat.fetchMessages({
+    limit: limitChat
+  });
+
+  for (const msg of unreadMessages) {
+    await handleMessage(msg, wbot);
+  }
+
+  await chat.sendSeen();
+}
+const existContact = async (wbot: Session,chat: Chat) : Promise<Ticket|null>=>{
+  const testMessage = await chat.fetchMessages({
+    limit: 1
+  });
+  let msgContact: WbotContact;
+  if(testMessage.length == 0){
+    return null;
+  }
+  if (testMessage[0].fromMe) {
+    msgContact = await wbot.getContactById(testMessage[0].to);
+  } else {
+    msgContact = await testMessage[0].getContact();
+  }
+  if(msgContact){
+    const contact = await Contact.findOne({ where: { number:msgContact.id.user } });
+    let indexCont = -1;
+    if(contact){
+      indexCont = contact.id 
+    }
+
+    let ticket = await Ticket.findOne({
+      where: {
+  
+        contactId: indexCont
+      }
+    });
+    return ticket;
+  }
+  return null;
+}
 const syncUnreadMessages = async (wbot: Session) => {
   const chats = await wbot.getChats();
   let limitChat = 2;
   /* eslint-disable no-restricted-syntax */
   /* eslint-disable no-await-in-loop */
-  for (const chat of chats) {
-    if (chat.unreadCount > 0) {
-     // console.log(chat);
-     limitChat = chat.unreadCount;
-     const unreadMessages = await chat.fetchMessages({
-      limit: limitChat
-    });
-  
-    for (const msg of unreadMessages) {
-      await handleMessage(msg, wbot);
+  const settingConf = await Setting.findOne({
+    where: {
+      key: "onlyUnread"
     }
+  });
+  const limitCountSetting = await Setting.findOne({
+    where: {
+      key: "limitChat"
+    }
+  });
 
-    await chat.sendSeen();
-    }else{
+  let onlyUnread = false;
+  
+  if(settingConf){
+    onlyUnread = settingConf.value === "enabled";
+  }
+
+  if(limitCountSetting){
+    limitChat = Number(limitCountSetting.value);
+  }
+
+  for (const chat of chats) {
+   
     
+   
+    if(onlyUnread){
+     
+      if (chat.unreadCount > 0) {
+
+        limitChat = chat.unreadCount;
+        await readMessages(wbot,chat,limitChat);
+  
+      }
+    }else{
+      let ticket = await existContact(wbot,chat);
+      if(!ticket){
+    
+       
+        await readMessages(wbot,chat,limitChat);
+      
+     
+      }else{
+        if (chat.unreadCount > 0) {
+
+          limitChat = chat.unreadCount;
+          await readMessages(wbot,chat,limitChat);
+    
+        }
+      }
     }
     
   }

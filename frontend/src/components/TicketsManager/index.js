@@ -275,7 +275,7 @@ const TicketsManager = () => {
 								
 							}}
 						>
-							{updateTickets ? "Cancelar" : "Actualizar"
+							{updateTickets ? "Cancelar" : "Acción"
 
 							}
 							

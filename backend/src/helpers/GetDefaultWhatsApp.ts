@@ -5,7 +5,7 @@ const GetDefaultWhatsApp = async (): Promise<Whatsapp> => {
   const defaultWhatsapp = await Whatsapp.findOne({
     where: { isDefault: 1 }
   });
-  console.log(defaultWhatsapp);
+  //console.log(defaultWhatsapp);
   if (!defaultWhatsapp) {
     throw new AppError("ERR_NO_DEF_WAPP_FOUND");
   }

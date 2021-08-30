@@ -114,7 +114,7 @@ const WhatappTokens = () => {
 			try {
 				const { data } = await api.get("/whatsappTokensInfo/");
 				setWhatsApps(data);
-				console.log(data);
+				//console.log(data);
 				setLoading(false);
 			} catch (err) {
 				setLoading(false);

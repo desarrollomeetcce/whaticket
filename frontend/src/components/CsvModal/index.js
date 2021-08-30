@@ -89,7 +89,7 @@ const CsvModal = ({ open, onClose, addSpeach }) => {
 	const handleAddSepachs = async values => {
 		try {
 			
-			console.log(values);
+			//console.log(values);
 		} catch (err) {
 			toastError(err);
 		}
@@ -101,7 +101,7 @@ const CsvModal = ({ open, onClose, addSpeach }) => {
 	};
 
 	const handleChange = async e =>{
-        console.log(e);
+        //console.log(e);
       
       }
 

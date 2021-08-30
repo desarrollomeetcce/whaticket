@@ -193,7 +193,7 @@ const TicketsList = ({ status, searchParam, showAll, selectedQueueIds,ticketsSel
 				
 				
 			});
-			console.log(ticketsTemp);
+			//console.log(ticketsTemp);
 		}
 		
 		dispatch({

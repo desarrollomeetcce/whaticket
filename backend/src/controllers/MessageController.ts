@@ -7,10 +7,12 @@ import Message from "../models/Message";
 import ListMessagesService from "../services/MessageServices/ListMessagesService";
 import ShowTicketService from "../services/TicketServices/ShowTicketService";
 import DeleteWhatsAppMessage from "../services/WbotServices/DeleteWhatsAppMessage";
-import SendWhatsAppMassive from "../services/WbotServices/SendWhatsAppMassive";
+
 import SendWhatsAppMedia from "../services/WbotServices/SendWhatsAppMedia";
 import SendWhatsAppMessage from "../services/WbotServices/SendWhatsAppMessage";
 import SendWhatsAppApi from "../services/WbotServices/SendWhatsAppApi";
+import SendWhatsAppMassive from "../services/WbotServices/SendWhatsAppMassive";
+import SendWhatsAppMediaMassive from "../services/WbotServices/SendWhatsAppMediaMassive";
 type IndexQuery = {
   pageNumber: string;
 };
@@ -70,11 +72,24 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
 
 export const sendMsg = async (req: Request, res: Response): Promise<Response> => {
 
-  //console.log(req.body);
-  const {wpId,num,msg}: MessageMassive= req.body;
-  
  
-  await SendWhatsAppMassive({ wpId, num,msg});
+  const medias = req.files as Express.Multer.File[];
+
+  
+  
+  if (medias) {
+    
+    const {wpId,num,msg}=  req.body;
+    await Promise.all(
+      medias.map(async (media: Express.Multer.File) => {
+        await SendWhatsAppMediaMassive({ media,wpId , num,msg });
+      })
+    );
+  }else{
+    const {wpId,num,msg}: MessageMassive= req.body;
+    await SendWhatsAppMassive({ wpId, num,msg});
+  }
+ 
 
  
 
@@ -107,3 +122,5 @@ export const remove = async (
 
   return res.send();
 };
+
+

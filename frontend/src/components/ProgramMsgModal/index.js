@@ -37,8 +37,8 @@ const ProgramMsgModal = ({user,ticket, modalOpen, onClose, ticketid }) => {
 	const [messageProgram, setMessageProgram] = useState("");
 
 	useEffect(() => {
-		console.log(user);
-		console.log(ticket);
+		//console.log(user);
+		//console.log(ticket);
 
 		const delayDebounceFn = setTimeout(() => {
 			const fetchUsers = async () => {
@@ -70,7 +70,7 @@ const ProgramMsgModal = ({user,ticket, modalOpen, onClose, ticketid }) => {
 		
 		let sendAt = moment(startDate).format('YYYY-MM-DD HH:mm:ss'); 
 		
-		console.log(sendAt);
+		//console.log(sendAt);
 		setLoading(true);
 		try {
 			await api.post('/programatedMsg', {

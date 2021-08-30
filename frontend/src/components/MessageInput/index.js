@@ -167,6 +167,7 @@ const MessageInput = ({ ticketStatus }) => {
 	const classes = useStyles();
 	const { ticketId } = useParams();
 
+	
 	const [medias, setMedias] = useState([]);
 	const [inputMessage, setInputMessage] = useState("");
 	const [showEmoji, setShowEmoji] = useState(false);
@@ -240,7 +241,7 @@ const MessageInput = ({ ticketStatus }) => {
 	};
 
 	const handleSendMessage = async () => {
-		console.log(user);
+		//console.log(user);
 		if (inputMessage.trim() === "") return;
 		setLoading(true);
 
@@ -414,7 +415,7 @@ const MessageInput = ({ ticketStatus }) => {
 							<AttachFileIcon className={classes.sendMessageIcons} />
 						</IconButton>
 					</label>
-					<FormControlLabel
+					{/*<FormControlLabel
 						style={{ marginRight: 7, color: "gray" }}
 						label={i18n.t("messagesInput.signMessage")}
 						labelPlacement="start"
@@ -429,7 +430,7 @@ const MessageInput = ({ ticketStatus }) => {
 								color="primary"
 							/>
 						}
-					/>
+					/>*/}
 					<div className={classes.messageInputWrapper}>
 						<InputBase
 							inputRef={input => {

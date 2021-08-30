@@ -21,7 +21,7 @@ rule.second = 1;
 const { Op } = require("sequelize");
 
 var intMail = schedule.scheduleJob(rule, async () =>{
- // console.log("Comienza envio de mensajes");
+ // //console.log("Comienza envio de mensajes");
   const messages = await ProgramatedMessage.findAll({ 
     order: [["sendAt", "ASC"]],
     where: {

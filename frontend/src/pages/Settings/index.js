@@ -90,7 +90,7 @@ const Settings = () => {
 
 	const handleChangeLimit = async newValue => {
 		
-		console.log(newValue);
+		//console.log(newValue);
 		try {
 			await api.put(`/settings/limitChat`, {
 				value: newValue,

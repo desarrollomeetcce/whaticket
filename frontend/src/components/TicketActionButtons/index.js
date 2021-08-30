@@ -43,12 +43,12 @@ const TicketActionButtons = ({ ticket }) => {
 			
 			try {
 				const {data} = await api.get("/tag");
-				console.log(data);
+				//console.log(data);
 				setTickettag(data);
 				
 			} catch (err) {
 				toastError(err);
-				console.log(err);
+				//console.log(err);
 			}
 		})();
 	}, []);

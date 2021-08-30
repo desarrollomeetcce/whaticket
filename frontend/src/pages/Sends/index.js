@@ -18,6 +18,7 @@ import {
 
 import MainContainer from "../../components/MainContainer";
 import MainHeader from "../../components/MainHeader";
+import MessageInputMassive from "../../components/MessageInputMassive";
 import MainHeaderButtonsWrapper from "../../components/MainHeaderButtonsWrapper";
 import Title from "../../components/Title";
 import { i18n } from "../../translate/i18n";
@@ -77,7 +78,35 @@ const useStyles = makeStyles(theme => ({
 		alignItems: "center",
 		justifyContent: "center",
 	},
+    contactsWrapper: {
+		display: "flex",
+		height: "60%",
+        width:"100%",
+		flexDirection: "column",
+		overflowY: "hidden",
+	},
+    contactsWrapper2: {
+		display: "flex",
+		height: "40%",
+        width:"100%",
+		flexDirection: "column",
+		overflowY: "hidden",
+	},
+    chatContainer: {
+		flex: 1,
+		// backgroundColor: "#eee",
+		padding: theme.spacing(4),
+		height: `calc(100% - 48px)`,
+		overflowY: "hidden",
+	},
+
+	chatPapper: {
+		// backgroundColor: "red",
+		display: "flex",
+		height: "100%",
+	},
 }));
+
 
 const Sends = () => {
     const {
@@ -120,6 +149,9 @@ const Sends = () => {
 	const [selectedQueueIds, setSelectedQueueIds] = useState(userQueueIds || []);
 
 	useEffect(() => {
+		setSepachsCount(1);
+	}, []);
+    useEffect(() => {
 		setSepachsCount(1);
 	}, []);
 
@@ -209,85 +241,99 @@ const Sends = () => {
         setRandomCount(randomCount+1);     
 	};
 	
-    const sendMessage = () => {
-         //Validar que haya archivo
-         let err={};
-         err["message"] = {};
-         err["message"]["data"] = "Ocurrio un error";
+    const sendMessage = (medias) => {
+        //Validar que haya archivo
+		let err={};
+		err["message"] = {};
+		err["message"]["data"] = "Ocurrio un error";
 
-         if(selectedQueueIds.length == 0){
-            err["message"]["data"] = "Debe seleccionar un número";
-            toastError(err);
-            return false;
-         }
-        if(csvFile.length==0){
-            err["message"]["data"] = "Debe adjuntar csv";
-            toastError(err);
-            return false;
-        }
-        //Validar mensaje
-        if(message==""){
-            err["message"]["data"] = "El mensaje no puede estar vacio";
-            toastError(err);
-            return false;
-        }
+		if(selectedQueueIds.length == 0){
+		   err["message"]["data"] = "Debe seleccionar un número";
+		   toastError(err);
+		   return false;
+		}
+	   if(csvFile.length==0){
+		   err["message"]["data"] = "Debe adjuntar csv";
+		   toastError(err);
+		   return false;
+	   }
+	   //Validar mensaje
+	   if(message==""){
+		   err["message"]["data"] = "El mensaje no puede estar vacio";
+		   toastError(err);
+		   return false;
+	   }
 
-        let finalData = {};
-        finalData.clients = clients;
-        finalData.message = message;
-        finalData.speachs = sepachs;
-        finalData.marcacion = marcacion;
-        finalData.queue = selectedQueueIds;
-        
-        
+	    let finalData = {};
+	    
+	   
+		
+		finalData.clients = clients;
+		finalData.message = message;
+		finalData.speachs = sepachs;
+		finalData.marcacion = marcacion;
+		finalData.queue = selectedQueueIds;
 
-    
-        try {
-            toast.success(i18n.t("Enviando mensajes"));
-            let speachcount = 0;
-            for(let i = 0; i< finalData.clients.length; i++){
+	   try {
+		   toast.success(i18n.t("Enviando mensajes"));
+		   let speachcount = 0;
+		   for(let i = 0; i< finalData.clients.length; i++){
 
-                let msgtemp = message;
-                for (let [key, value] of Object.entries(sepachs)) {
-                  
-                    if(value[speachcount]!=""){
-                        msgtemp = msgtemp.replace("$"+key,value[speachcount]);
-                    }
-                   
-                }
-                if(typeof(sepachs["SPEACH1"])!=='undefined'){
-                    if(speachcount==sepachs["SPEACH1"].length-1){
-                        speachcount=0;
-                    }else{
-                        speachcount++;
-                    }
-                }
-                
-               
-                let values = {
-                
-                    wpId:selectedQueueIds[0],
-                    num:finalData.marcacion+clients[i][1],
-                    msg: msgtemp
-                }
-                //console.log(values);
-                try{
-                    const { data } =  api.post("/messagesend", values);
-                    console.log(data);
-                    msgSend.push(i);
-                    let msgSendTemp = msgSend;
-                    setMsgSend(msgSendTemp);
-                    setRandomCount(randomCount+1);    
-                } catch (err) {
-                   console.log(err);
-                }
-               
-            }
-           
-            toast.success(i18n.t("Termina envio de mensajes"));
-        } catch (err) {
-            toastError(err);
-        }
+			   let msgtemp = message;
+			   for (let [key, value] of Object.entries(sepachs)) {
+				 
+				   if(value[speachcount]!=""){
+					   msgtemp = msgtemp.replace("$"+key,value[speachcount]);
+				   }
+				  
+			   }
+			   if(typeof(sepachs["SPEACH1"])!=='undefined'){
+				   if(speachcount==sepachs["SPEACH1"].length-1){
+					   speachcount=0;
+				   }else{
+					   speachcount++;
+				   }
+			   }
+
+				let	values = {
+
+					wpId:selectedQueueIds[0],
+					num:finalData.marcacion+clients[i][1],
+					msg: msgtemp
+				}
+
+
+			   try{
+					//console.log(values);
+				   api.post("/messagesend", values);
+				   if(medias.length > 0){
+						values = new FormData();
+
+						values.append("wpId", selectedQueueIds[0]);
+						values.append("num", finalData.marcacion+clients[i][1]);
+						values.append("msg", msgtemp);
+		
+						medias.forEach(media => {
+							values.append("medias", media);
+						});
+						api.post("/messagesend", values);
+				   }
+				  
+				   //console.log(data);
+				   msgSend.push(i);
+				  let msgSendTemp = msgSend;
+				   setMsgSend(msgSendTemp);
+				   setRandomCount(speachcount+1);    
+			   } catch (err) {
+				  console.log(err);
+			   }
+			  
+		   }
+		  
+		   toast.success(i18n.t("Termina envio de mensajes"));
+	   } catch (err) {
+		   toastError(err);
+	   }
         
     }
 
@@ -303,170 +349,176 @@ const Sends = () => {
                         value={marcacion}
 					/>
 						
-					
+                        <TicketsQueueSelect
+                            style={{ marginLeft: 6 }}
+                            selectedQueueIds={selectedQueueIds}
+                            userQueues={whatsApps}
+                            onChange={values => setSelectedQueueIds(values)}
+                        />
 				</MainHeaderButtonsWrapper>
 			</MainHeader>
-          
-            <Paper className={classes.mainPaper} variant="outlined">
-               <h2>Mensaje</h2>
-               <TicketsQueueSelect
-					style={{ marginLeft: 6 }}
-					selectedQueueIds={selectedQueueIds}
-					userQueues={whatsApps}
-					onChange={values => setSelectedQueueIds(values)}
-				/>
-                <div className="input-group col-lg-12 mb-4">
-                    <TextField
-                    // value={""}
-                        onChange={(e) => setmessage(e.target.value)}
-                        className={classes.input}
-                        variant="outlined"
-                        multiline
-                        fullWidth
-                    />
-                </div>
-                <br></br>
-                <div style={{textAlign: 'center'}}>
-                        <Button
-                            variant="contained"
-                            color="inherit"
-                            onClick={sendMessage}
-                        >
-                            {"Enviar"}
-                        </Button>
-                </div>
-                       
-               
-			</Paper>
-            <Paper className={classes.mainPaper} variant="outlined">
-                <MainHeader>
-                    <h2>Speach</h2>
+            <div className={classes.chatContainer}>
+                <div className={classes.chatPapper}>
+                <Grid container spacing={0}>
+                    <Grid item xs={6} className={classes.contactsWrapper}>
+                    <Paper className={classes.mainPaper} variant="" >
+                    <h2>Mensaje</h2>
+                 
+                        <div className="input-group col-lg-12 mb-4">
+                            <TextField
+                            // value={""}
+                            size="large"
+                                onChange={(e) => setmessage(e.target.value)}
+                                className={classes.input}
+                                variant="outlined"
+                                multiline
+                                fullWidth
+                            />
+                        </div>
+                        <MessageInputMassive 
+                           sendMessage={sendMessage}
+                        />
                     
-                    <MainHeaderButtonsWrapper>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={addSpeach}
-                        >
-                            {"Agregar"}
-                        </Button>
-                        
-                    </MainHeaderButtonsWrapper>
-                </MainHeader>
-               
-               
-                {Object.keys(sepachs).map((keyName, speach_array) => (
-                    <Grid>
-                        
-                        <Paper>
-                        <MainHeader>
-                            <h3>{keyName}</h3>
-                                
-                                <MainHeaderButtonsWrapper>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={() =>addSubSpeach(keyName)}
-                                    >
-                                        {"Agregar"}
-                                    </Button>
-                                    
-                                </MainHeaderButtonsWrapper>
-                            </MainHeader>
-                            {
-                                sepachs[keyName].map((speach_temp, i) => (
-                                    <input
-                                    value = {speach_temp}
-                                        onChange={(e) => {
-                                            handleSpeach(e, i,keyName);
-                                        }}
-                                
-                                    />		
-                                )
-
-                                )
-                            }
-                        </Paper>
+                       
+                            
+                    
+                    </Paper>
                     </Grid>
-                ))}
-                
-            </Paper>
-            <Paper className={classes.mainPaper} variant="outlined">
-            <h2>Archivo</h2>
-                <Dropzone 
-                    onDrop={revisaArchivo}
-                    accept=".csv"
-                >
-                {({getRootProps, getInputProps}) => (
-                <div className="container">
-                <div {...getRootProps({style})}>
-                    <input {...getInputProps()} />
-                    <p>{csvFile.length!=0 ?csvFile[0].name:"Agrega CSV"}</p>
-                </div>
-                </div>
-                )}
-                </Dropzone> 
+              
+                    <Grid item xs={6} className={classes.contactsWrapper}>
+                    <Paper className={classes.mainPaper} variant="">
+                    <h2>Archivo</h2>
+                        <Dropzone 
+                            onDrop={revisaArchivo}
+                            accept=".csv"
+                        >
+                        {({getRootProps, getInputProps}) => (
+                        <div className="container">
+                        <div {...getRootProps({style})}>
+                            <input {...getInputProps()} />
+                            <p>{csvFile.length!=0 ?csvFile[0].name:"Agrega CSV"}</p>
+                        </div>
+                        </div>
+                        )}
+                        </Dropzone> 
 
-                <Table size="small">
-					<TableHead>
-						<TableRow>
-							<TableCell align="center">
-								{"Contacto"}
-							</TableCell>
-                            <TableCell align="center">
-								{"Marcación"}
-							</TableCell>
-							<TableCell align="center">
-								{"Teléfono"}
-							</TableCell>
-                            <TableCell align="center">
-								{"Estatus"}
-							</TableCell>
-                           
-							<TableCell align="center">
-								{"Acciones"}
-							</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						<>
-							{clients.map((queue, i) => (
-								<TableRow key={queue[0]}>
-									<TableCell align="center">{queue[0]}</TableCell>
-                                    <TableCell align="center">{marcacion}</TableCell>
-									<TableCell align="center">{queue[1]}</TableCell>
+                        <Table size="small">
+                            <TableHead>
+                                <TableRow>
                                     <TableCell align="center">
-                                        {msgSend.indexOf(i) != -1 ?
-                                            
-                                                <CheckCircle style={{ color: green[500] }} />
-                                            
-                                        : "Pendiente"}
+                                        {"Contacto"}
                                     </TableCell>
-									<TableCell align="center">
-										{/*<IconButton
-											size="small"
-											onClick={() => handleEditQueue(queue)}
-										>
-											<Edit />
-                                        </IconButton>*/}
+                                    <TableCell align="center">
+                                        {"Marcación"}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {"Teléfono"}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {"Estatus"}
+                                    </TableCell>
+                                
+                                    <TableCell align="center">
+                                        {"Acciones"}
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <>
+                                    {clients.map((queue, i) => (
+                                        <TableRow key={queue[0]}>
+                                            <TableCell align="center">{queue[0]}</TableCell>
+                                            <TableCell align="center">{marcacion}</TableCell>
+                                            <TableCell align="center">{queue[1]}</TableCell>
+                                            <TableCell align="center">
+                                                {msgSend.indexOf(i) != -1 ?
+                                                    
+                                                        <CheckCircle style={{ color: green[500] }} />
+                                                    
+                                                : "Pendiente"}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {/*<IconButton
+                                                    size="small"
+                                                    onClick={() => handleEditQueue(queue)}
+                                                >
+                                                    <Edit />
+                                                </IconButton>*/}
 
-										<IconButton
-											size="small"
-											onClick={() => {
-												deleteNumber(i);
-											}}
-										>
-											<DeleteOutline />
-										</IconButton>
-									</TableCell>
-								</TableRow>
-							))}
-							
-						</>
-					</TableBody>
-				</Table>
-			</Paper>
-		
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() => {
+                                                        deleteNumber(i);
+                                                    }}
+                                                >
+                                                    <DeleteOutline />
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                    
+                                </>
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                    </Grid>
+                    <Grid item xs={12} className={classes.contactsWrapper2}>
+                    { <Paper className={classes.mainPaper} variant="outlined">
+                        <MainHeader>
+                            <h2>Speach</h2>
+                            
+                            <MainHeaderButtonsWrapper>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={addSpeach}
+                                >
+                                    {"Agregar"}
+                                </Button>
+                                
+                            </MainHeaderButtonsWrapper>
+                        </MainHeader>
+                    
+                    
+                        {Object.keys(sepachs).map((keyName, speach_array) => (
+                            <Grid>
+                                
+                                <Paper>
+                                <MainHeader>
+                                    <h3>{keyName}</h3>
+                                        
+                                        <MainHeaderButtonsWrapper>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={() =>addSubSpeach(keyName)}
+                                            >
+                                                {"Agregar"}
+                                            </Button>
+                                            
+                                        </MainHeaderButtonsWrapper>
+                                    </MainHeader>
+                                    {
+                                        sepachs[keyName].map((speach_temp, i) => (
+                                            <input
+                                            value = {speach_temp}
+                                                onChange={(e) => {
+                                                    handleSpeach(e, i,keyName);
+                                                }}
+                                        
+                                            />		
+                                        )
+
+                                        )
+                                    }
+                                </Paper>
+                            </Grid>
+                        ))}
+                        
+                                </Paper>}
+                </Grid></Grid>
+                </div>
+                </div>
             
 		</MainContainer>
 	);

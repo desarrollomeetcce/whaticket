@@ -26,7 +26,7 @@ const UpdateTicketService = async ({
   ticketId
 }: Request): Promise<Response> => {
   const { status, userId, queueId } = ticketData;
-  console.log(ticketData);
+  //console.log(ticketData);
   const ticket = await ShowTicketService(ticketId);
 
   await SetTicketMessagesAsRead(ticket);

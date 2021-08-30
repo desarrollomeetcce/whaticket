@@ -5,7 +5,7 @@ const axios = require('axios')
 
 
 dotenv.config();
-console.log(process.env.REACT_APP_BACKEND_URL);
+//console.log(process.env.REACT_APP_BACKEND_URL);
 var con = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -15,7 +15,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
+  //console.log("Connected!");
 });
 const api = axios.create({
 	baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -37,8 +37,8 @@ con.query('SELECT * FROM programatedMessages',function(err,results,fields){
      values
     })
     .then(res => {
-      console.log(`statusCode: ${res.status}`)
-      console.log(res)
+      //console.log(`statusCode: ${res.status}`)
+      //console.log(res)
     })
     .catch(error => {
       console.error(error)

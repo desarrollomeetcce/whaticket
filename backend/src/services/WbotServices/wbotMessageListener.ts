@@ -67,26 +67,26 @@ const verifyMediaMessage = async (
   contact: Contact
 ): Promise<Message> => {
   const quotedMsg = await verifyQuotedMessage(msg);
- // console.log("comienza descarga");
+ // //console.log("comienza descarga");
   let media;
   try{ media = await msg.downloadMedia();}
   catch (err) {
     logger.error(err);
   }
   
-  //console.log("se descarga mensaje");
+  ////console.log("se descarga mensaje");
   if (!media) {
     throw new Error("ERR_WAPP_DOWNLOAD_MEDIA");
   }
 
   if (!media.filename) {
-   // console.log("se pone nombre");
+   // //console.log("se pone nombre");
     const ext = media.mimetype.split("/")[1].split(";")[0];
     media.filename = `${new Date().getTime()}.${ext}`;
   }
 
   try {
-   // console.log("se sincroniza archivo");
+   // //console.log("se sincroniza archivo");
     await writeFileAsync(
       join(__dirname, "..", "..", "..", "public", media.filename),
       media.data,
@@ -151,7 +151,7 @@ const verifyQueue = async (
       ticketData: { queueId: queues[0].id },
       ticketId: ticket.id
     });
-    console.log(queues[0].id);
+    //console.log(queues[0].id);
     return;
   }
 
@@ -222,7 +222,7 @@ const handleMessage = async (
   try {
     let msgContact: WbotContact;
     let groupContact: Contact | undefined;
-    //console.log(msg.to);
+    ////console.log(msg.to);
     if (msg.fromMe) {
       // messages sent automatically by wbot have a special character in front of it
       // if so, this message was already been stored in database;
@@ -239,7 +239,7 @@ const handleMessage = async (
     }
 
     const chat = await msg.getChat();
-    //console.log(msg);
+    ////console.log(msg);
     if (chat.isGroup) {
       let msgGroupContact;
 
@@ -261,15 +261,15 @@ const handleMessage = async (
       unreadMessages,
       groupContact
     );
-   // console.log("Linea 257");
+   // //console.log("Linea 257");
     if (msg.hasMedia) {
-      //console.log("Comienza");
+      ////console.log("Comienza");
       await verifyMediaMessage(msg, ticket, contact);
-      //console.log("termina");
+      ////console.log("termina");
     } else {
       await verifyMessage(msg, ticket, contact);
     }
-    //console.log("Linea 263");
+    ////console.log("Linea 263");
     const whatsapp = await ShowWhatsAppService(wbot.id!);
 
     if (

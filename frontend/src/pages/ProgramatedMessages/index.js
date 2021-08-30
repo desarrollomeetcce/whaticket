@@ -118,7 +118,7 @@ const Contacts = () => {
 					const { data } = await api.get("/programatedMsg/", {
 						params: { searchParam, pageNumber },
 					});
-					console.log(data);
+					//console.log(data);
 					dispatch({ type: "LOAD_MESSAGES", payload: data });
 					setHasMore(data.hasMore);
 					setLoading(false);

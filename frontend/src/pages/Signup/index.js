@@ -74,7 +74,7 @@ const SignUp = () => {
 	const [user] = useState(initialState);
 
 	const handleSignUp = async values => {
-		console.log(values);
+		//console.log(values);
 		try {
 			await api.post("/auth/signup", values);
 			toast.success(i18n.t("signup.toasts.success"));

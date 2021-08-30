@@ -120,14 +120,14 @@ const TicketsManager = () => {
 			
 			try {
 				const {data} = await api.get("/tag");
-				console.log(data);
+				//console.log(data);
 				setUserTagIds(data);
 				setSelectedTagIds(data[0].name)
 				
 				
 			} catch (err) {
 		
-				console.log(err);
+				//console.log(err);
 			}
 		})();
 	}, []);
@@ -157,8 +157,8 @@ const TicketsManager = () => {
 	};
 
 	const handleUpdateTicketStatus =  () => {
-		//console.log(selectedTagIds);
-		//console.log(ticketsSelected);
+		////console.log(selectedTagIds);
+		////console.log(ticketsSelected);
 		ticketsSelected.forEach( function(ticket, indice) {
 			try {
 				 api.put(`/tickets/${ticket.id}`, {

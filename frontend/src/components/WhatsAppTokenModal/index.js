@@ -90,7 +90,7 @@ const WhatsAppTokenModal = ({ open, onClose, whatsAppId,wpMain }) => {
 			"token":token
 		};
 
-		console.log(whatsappData);
+		//console.log(whatsappData);
 		try {
 			
 			

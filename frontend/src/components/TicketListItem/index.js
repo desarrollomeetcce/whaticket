@@ -125,7 +125,7 @@ const TicketListItem = ({ ticket,ticketsSelected = [],updateTickets,ticketTags }
 				userId: user?.id,
 			});
 		} catch (err) {
-			console.log(err);
+			//console.log(err);
 			setLoading(false);
 			toastError(err);
 		}
@@ -141,14 +141,14 @@ const TicketListItem = ({ ticket,ticketsSelected = [],updateTickets,ticketTags }
 
 	const addTicket = ticket => {
 		if(ticketsSelected.indexOf(ticket) == -1){
-			console.log("Se agregó ticket");
+			//console.log("Se agregó ticket");
 			ticketsSelected.push(ticket);
 		}else{
-			console.log("Se elimino ticket");
+			//console.log("Se elimino ticket");
 			ticketsSelected.splice(ticketsSelected.indexOf(ticket), 1);
 		}
 	
-		console.log(ticketsSelected);
+		//console.log(ticketsSelected);
 	};
 
 	return (

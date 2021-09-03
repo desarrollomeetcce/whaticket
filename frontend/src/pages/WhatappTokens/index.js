@@ -194,7 +194,15 @@ const WhatappTokens = () => {
 	};
 
 	
-
+	const getImagePath = (path) => {
+		let tempUrl = path.split("\\");
+		if(tempUrl.length > 1){
+			return tempUrl[tempUrl.length-1]
+		}else{
+			tempUrl = path.split("/");
+			return tempUrl[tempUrl.length-1]
+		}
+	}
 
 
 	return (
@@ -268,7 +276,7 @@ const WhatappTokens = () => {
 											<TableCell align="center">{
 												whatsApp?.whatsappToken[0]?.imagePath?
 												<ModalImageCors 
-													imageUrl={ process.env.REACT_APP_BACKEND_URL+"public/"+whatsApp?.whatsappToken[0]?.imagePath?.split("\\")[whatsApp?.whatsappToken[0]?.imagePath?.split("\\").length-1]} 
+													imageUrl={ process.env.REACT_APP_BACKEND_URL+"public/"+getImagePath(whatsApp?.whatsappToken[0]?.imagePath)} 
 												/>:"Sin imagen"
 											
 											}</TableCell>

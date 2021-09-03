@@ -7,7 +7,8 @@ import { StartAllWhatsAppsSessions } from "./services/WbotServices/StartAllWhats
 import ProgramatedMessage from "./models/ProgramatedMessage";
 import UpdateProgramatedMessageService from "./services/ProgramatedMessageService/UpdateProgramatedMessageService"
 import SendWhatsAppMassive from "./services/WbotServices/SendWhatsAppMassive";
-
+import SendWhatsAppMediaProgram from "./services/WbotServices/SendWhatsAppMediaProgram";
+import { MessageMedia} from "whatsapp-web.js";
 const server = app.listen(process.env.PORT, () => {
   logger.info(`Server started on port: ${process.env.PORT}`);
 
@@ -32,20 +33,30 @@ var intMail = schedule.scheduleJob(rule, async () =>{
       
     }
   });
-  try{
+ 
     for (const element of messages) {
-      const {id,wpid,phoneNumber,message} = element;
+      const {id,wpid,phoneNumber,message,imagePath} = element;
       let wpId = wpid,num = phoneNumber,msg =message;
-  
-      await SendWhatsAppMassive({ wpId, num,msg});
-      await UpdateProgramatedMessageService(id,{status: "sent"});
+
+      try{
+
+        await SendWhatsAppMassive({ wpId, num,msg,imagePath});
+        if(imagePath){
+          console.log(imagePath);
+          const media = MessageMedia.fromFilePath(imagePath);
+         
+          await SendWhatsAppMediaProgram({ media,wpId , num });
+        }
+      
+        await UpdateProgramatedMessageService(id,{status: "sent"});
+
+      }catch(err){
+
+        await UpdateProgramatedMessageService(id,{status: "error"});
+        logger.info(err);
+      }
       
     }
-    
-  }catch(err){
-    logger.info(err);
-  }
-  
 });
 
 initIO(server);

@@ -20,9 +20,21 @@ export const index = async (req: Request, res: Response): Promise<Response> => {
 };
 
 export const store = async (req: Request, res: Response): Promise<Response> => {
-  const { phoneNumber, message,wpid,sendby,status,idchat,sendAt } = req.body;
+  
+  const medias = req.files as Express.Multer.File[];
 
-  const messageRes = await CreateProgramatedMessageService({ phoneNumber, message,wpid,sendby,status,idchat,sendAt });
+ 
+  let messageRes;
+  if (medias) {
+   
+    let imagePath = medias[0].path;
+    const { phoneNumber, message,wpid,sendby,status,idchat,sendAt } = req.body;
+    messageRes = await CreateProgramatedMessageService({ phoneNumber, message,imagePath,wpid,sendby,status,idchat,sendAt });
+  }else{
+    const { phoneNumber, message,wpid,sendby,status,idchat,sendAt } = req.body;
+    messageRes = await CreateProgramatedMessageService({ phoneNumber, message,wpid,sendby,status,idchat,sendAt });
+  }
+  
 
   const io = getIO();
   io.emit("MessageProgramated", {

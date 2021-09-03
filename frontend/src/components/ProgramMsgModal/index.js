@@ -22,6 +22,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import { toast } from "react-toastify";
 import { green } from "@material-ui/core/colors";
+import MessageInputMassive from "../../components/MessageInputMassive";
 
 const filterOptions = createFilterOptions({
 	trim: true,
@@ -63,17 +64,32 @@ const ProgramMsgModal = ({user,ticket, modalOpen, onClose, ticketid }) => {
 		onClose();
 
 	};
-
-	const handleProgramMsg = async e => {
-		e.preventDefault();
+	const sendMessage = (medias) =>{
+		handleProgramMsg(medias);
+	}
+	const handleProgramMsg = async (medias) => {
+		
 		
 		
 		let sendAt = moment(startDate).format('YYYY-MM-DD HH:mm:ss'); 
+		let msgData;
 		
-		//console.log(sendAt);
-		setLoading(true);
-		try {
-			await api.post('/programatedMsg', {
+		if(medias.length> 0){
+		    msgData = new FormData();
+			msgData.append("id", 0);
+			msgData.append("phoneNumber", ticket.contact.number);
+			msgData.append("message", messageProgram);
+			msgData.append("wpid", ticket.whatsappId);
+			msgData.append("sendby", user.id);
+			msgData.append("status", "pending");
+			msgData.append("idchat", ticket.id);
+			msgData.append("sendAt", sendAt);
+		
+			medias.forEach(media => {
+				msgData.append("medias", media);
+			});
+		}else{
+			msgData = {
 				id: 0,
 				phoneNumber: ticket.contact.number,
 				message: messageProgram,
@@ -82,7 +98,14 @@ const ProgramMsgModal = ({user,ticket, modalOpen, onClose, ticketid }) => {
 				status: "pending",
 				idchat: ticket.id,
 				sendAt: sendAt
-			});
+			};
+		}
+		//console.log(sendAt);
+		setLoading(true);
+		try {
+			console.log(msgData);
+			console.log(messageProgram);
+			await api.patch('/programatedMsg', msgData);
 			setLoading(false);
 			toast.success(i18n.t("Se programó correctamente el mensaje"));
 		} catch (err) {
@@ -131,6 +154,10 @@ const ProgramMsgModal = ({user,ticket, modalOpen, onClose, ticketid }) => {
 					
 					
 				</DialogContent>
+				<MessageInputMassive 
+					sendMessage={sendMessage}
+					messageBtn={"Programar"}
+				/>
 				<DialogActions>
 					<Button
 						onClick={handleClose}
@@ -140,15 +167,7 @@ const ProgramMsgModal = ({user,ticket, modalOpen, onClose, ticketid }) => {
 					>
 						{i18n.t("transferTicketModal.buttons.cancel")}
 					</Button>
-					<Button
-						
-						color="primary"
-						disabled={loading}
-						variant="outlined"
-						onClick={handleProgramMsg}
-					>
-						{i18n.t("Programar")}
-					</Button>
+					
 				</DialogActions>
 			
 		</Dialog>

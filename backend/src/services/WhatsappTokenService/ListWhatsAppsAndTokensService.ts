@@ -7,7 +7,7 @@ const ListWhatsAppsAndTokensService = async (): Promise<Whatsapp[]> => {
       {
         model: WhaticketApiToken,
        
-        attributes: ["id", "wpid", "message", "token"]
+        attributes: ["id", "wpid", "message","imagePath", "token"]
       }
     ]
   });

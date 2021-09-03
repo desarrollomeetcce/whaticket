@@ -34,6 +34,7 @@ import MainContainer from "../../components/MainContainer";
 import toastError from "../../errors/toastError";
 import { AuthContext } from "../../context/Auth/AuthContext";
 import { Can } from "../../components/Can";
+import ModalImageCors from "../../components/ModalImageCors";
 import moment from 'moment';
 
 
@@ -230,6 +231,9 @@ const Contacts = () => {
 								{i18n.t("msgPage.table.msg")}
 							</TableCell>
 							<TableCell align="center">
+								{i18n.t("Imagen")}
+							</TableCell>
+							<TableCell align="center">
 								{i18n.t("msgPage.table.status")}
 							</TableCell>
 							<TableCell align="center">
@@ -242,11 +246,20 @@ const Contacts = () => {
 					</TableHead>
 					<TableBody>
 						<>
+						
 							{contacts.map(contact => (
 								<TableRow key={contact.id}>
 								
 									<TableCell align="center">{contact.phoneNumber}</TableCell>
+							
 									<TableCell align="center">{contact.message}</TableCell>
+									<TableCell align="center">{
+										contact.imagePath?
+										<ModalImageCors 
+											imageUrl={ process.env.REACT_APP_BACKEND_URL+"public/"+contact.imagePath?.split("\\")[contact.imagePath?.split("\\").length-1]} 
+										/>:"Sin imagen"
+									
+									}</TableCell>
 									<TableCell align="center">{contact.status}</TableCell>
 									<TableCell align="center">{moment(contact.sendAt).format('YYYY-MM-DD h:mm a')}</TableCell>
 									<TableCell align="center">
@@ -262,14 +275,14 @@ const Contacts = () => {
 										>
 											<EditIcon />
 										</IconButton>*/}
-										
+										{contact.status !=="sent" ?
 										<IconButton
 											size="small"
 											onClick={() => handleDeleteMsg(contact.id)}
 										>
-											<DeleteOutlineIcon />
-										</IconButton>
-										
+										<DeleteOutlineIcon />
+										</IconButton>:""
+										}
 									
 									</TableCell>
 								</TableRow>

@@ -40,7 +40,7 @@ import QrcodeModal from "../../components/QrcodeModal";
 import { i18n } from "../../translate/i18n";
 import { WhatsAppsContext } from "../../context/WhatsApp/WhatsAppsContext";
 import toastError from "../../errors/toastError";
-
+import ModalImageCors from "../../components/ModalImageCors";
 const useStyles = makeStyles(theme => ({
 	mainPaper: {
 		flex: 1,
@@ -114,7 +114,7 @@ const WhatappTokens = () => {
 			try {
 				const { data } = await api.get("/whatsappTokensInfo/");
 				setWhatsApps(data);
-				//console.log(data);
+				console.log(data);
 				setLoading(false);
 			} catch (err) {
 				setLoading(false);
@@ -232,6 +232,9 @@ const WhatappTokens = () => {
 								{i18n.t("Mensaje")}
 							</TableCell>
 							<TableCell align="center">
+								{i18n.t("Imagen")}
+							</TableCell>
+							<TableCell align="center">
 								{i18n.t("API url")}
 							</TableCell>
 			
@@ -262,6 +265,13 @@ const WhatappTokens = () => {
 												whatsApp?.whatsappToken[0]?.message ?
 												whatsApp?.whatsappToken[0]?.message: "N/A"}
 											</TableCell>
+											<TableCell align="center">{
+												whatsApp?.whatsappToken[0]?.imagePath?
+												<ModalImageCors 
+													imageUrl={ process.env.REACT_APP_BACKEND_URL+"public/"+whatsApp?.whatsappToken[0]?.imagePath?.split("\\")[whatsApp?.whatsappToken[0]?.imagePath?.split("\\").length-1]} 
+												/>:"Sin imagen"
+											
+											}</TableCell>
 											<TableCell align="center">{
 												whatsApp?.whatsappToken[0]?.token ?
 												process.env.REACT_APP_BACKEND_URL+"messageToken/"+whatsApp?.whatsappToken[0].token: "N/A"}

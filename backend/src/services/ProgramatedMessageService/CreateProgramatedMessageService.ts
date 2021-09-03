@@ -5,6 +5,7 @@ import ProgramatedMessage from "../../models/ProgramatedMessage";
 interface ProgramatedMessageData {
   phoneNumber: string;
   message: string;
+  imagePath?:string;
   wpid: number;
   sendby: string;
   status: string;
@@ -14,7 +15,8 @@ interface ProgramatedMessageData {
 
 const CreateProgramatedMessageService = async (messageData: ProgramatedMessageData): Promise<ProgramatedMessage> => {
   const { phoneNumber, message,wpid,sendby,status,idchat,sendAt } = messageData;
- 
+  console.log(phoneNumber);
+  console.log(message);
   const programatedMessageSchema = Yup.object().shape({
     phoneNumber: Yup.string()
       .min(10, "ERR_QUEUE_INVALID_NAME")

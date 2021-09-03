@@ -27,6 +27,10 @@ class ProgramatedMessage extends Model<ProgramatedMessage> {
     @Column
     message: string;
 
+    @AllowNull(true)
+    @Column
+    imagePath: string;
+    
     @AllowNull(false)
     @Column
     wpid: number;

@@ -411,6 +411,7 @@ const MessagesList = ({ ticketId, isGroup }) => {
 
 	const checkMessageMedia = message => {
 		if (message.mediaType === "image") {
+
 			return <ModalImageCors imageUrl={message.mediaUrl} />;
 		}
 		if (message.mediaType === "audio") {

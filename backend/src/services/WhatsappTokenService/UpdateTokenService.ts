@@ -4,6 +4,7 @@ import ShowTokenService from "./ShowTokenService";
 interface TokenApiData {
 
   message?: string;
+  imagePath?:string;
 }
 
 const UpdateQueueService = async (

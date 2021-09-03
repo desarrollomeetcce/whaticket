@@ -130,7 +130,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const MessageInputMassive = ({sendMessage}) => {
+const MessageInputMassive = ({sendMessage,messageBtn}) => {
 	const classes = useStyles();
 	
 
@@ -147,15 +147,19 @@ const MessageInputMassive = ({sendMessage}) => {
 	const [signMessage, setSignMessage] = useLocalStorage("signOption", true);
 
 	useEffect(() => {
+		if(!messageBtn)
+		{
+			messageBtn= "Enviar";
+		}
 		//inputRef.current.focus();
-	}, []);
+	}, [medias]);
 
 	useEffect(() => {
 	//	inputRef.current.focus();
 		return () => {
 			setInputMessage("");
 			setShowEmoji(false);
-			setMedias([]);
+		
 			
 		};
 	}, [ ]);
@@ -169,13 +173,14 @@ const MessageInputMassive = ({sendMessage}) => {
 		setInputMessage(prevState => prevState + emoji);
 	};
 
-	const handleChangeMedias = e => {
-		//console.log(messageToSend);
+	const handleChangeMedias2 = e => {
+		
 		if (!e.target.files) {
 			return;
 		}
 
 		const selectedMedias = Array.from(e.target.files);
+		console.log(selectedMedias);
 		setMedias(selectedMedias);
 	};
 
@@ -315,11 +320,13 @@ const MessageInputMassive = ({sendMessage}) => {
 			</Paper>
 			<div style={{textAlign: 'center'}}>
 				<Button
+					
+					color="primary"
+								
 					variant="contained"
-					color="inherit"
 					onClick={sendMediaPrim}
 				>
-					{"Enviar"}
+					{messageBtn}
 				</Button>
 		</div>
 			</>
@@ -352,12 +359,12 @@ const MessageInputMassive = ({sendMessage}) => {
 					<input
 						multiple
 						type="file"
-						id="upload-button"
+						id="upload-button2"
 						
 						className={classes.uploadInput}
-						onChange={handleChangeMedias}
+						onChange={handleChangeMedias2}
 					/>
-					<label htmlFor="upload-button">
+					<label htmlFor="upload-button2">
 						<IconButton
 							aria-label="upload"
 							component="span"

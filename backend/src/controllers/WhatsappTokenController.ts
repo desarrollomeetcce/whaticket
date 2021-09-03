@@ -15,7 +15,16 @@ export const index = async (req: Request, res: Response): Promise<Response> => {
 export const store = async (req: Request, res: Response): Promise<Response> => {
   const { wpid, message,token } = req.body;
 
-  const tokenApi = await CreateTokenService({ wpid, message,token });
+  const medias = req.files as Express.Multer.File[];
+  let tokenApi;
+
+  if (medias) {
+    let imagePath = medias[0].path;
+     tokenApi = await CreateTokenService({ wpid, message,token,imagePath });
+  }else{
+     tokenApi = await CreateTokenService({ wpid, message,token });
+  }
+ 
 
   return res.status(200).json(tokenApi);
 };
@@ -33,9 +42,19 @@ export const update = async (
   res: Response
 ): Promise<Response> => {
   const { tokenId } = req.params;
+  const {  message } = req.body;
 
-  const queue = await UpdateTokenService(tokenId, req.body);
-  return res.status(201).json(queue);
+  const medias = req.files as Express.Multer.File[];
+  let tokenApi;
+
+  if (medias) {
+    let imagePath = medias[0].path;
+     tokenApi = await UpdateTokenService(tokenId,{ message,imagePath });
+  }else{
+     tokenApi = await UpdateTokenService(tokenId,{ message });
+  }
+ 
+  return res.status(201).json(tokenApi);
 };
 
 export const remove = async (

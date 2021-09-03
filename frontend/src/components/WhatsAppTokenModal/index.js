@@ -22,7 +22,9 @@ import api from "../../services/api";
 import { i18n } from "../../translate/i18n";
 import toastError from "../../errors/toastError";
 import QueueSelect from "../QueueSelect";
-import randomToken from 'random-token'
+import randomToken from 'random-token';
+import MessageInputMassive from "../../components/MessageInputMassive";
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: "flex",
@@ -71,7 +73,7 @@ const WhatsAppTokenModal = ({ open, onClose, whatsAppId,wpMain }) => {
 		setMessage(wpMain?.whatsappToken[0]?.message);
 	}, [whatsAppId,wpMain]);
 
-	const handleSaveWhatsApp = async () => {
+	const handleSaveWhatsApp = async (medias) => {
 		
 		if(message== ""){
 			alert("El mensaje no puede estar vacio");
@@ -83,21 +85,33 @@ const WhatsAppTokenModal = ({ open, onClose, whatsAppId,wpMain }) => {
 		}
 		
 		var token = randomToken(16);
+		let whatsappData;
+		if(medias){
+			whatsappData = new FormData();
+			whatsappData.append("wpid", wpMain.id);
+			whatsappData.append("message", message);
+			whatsappData.append("token", token);
+			
+			medias.forEach(media => {
+				whatsappData.append("medias", media);
+			});
+		}else{
+			whatsappData= {
+				"wpid":wpMain.id,
+				"message":message,
+				"token":token
+			};
+		}
 		
-		const whatsappData= {
-			"wpid":wpMain.id,
-			"message":message,
-			"token":token
-		};
 
 		//console.log(whatsappData);
 		try {
 			
 			
 			if (wpMain?.whatsappToken[0]?.id) {
-				await api.put(`/whatsappTokens/${wpMain?.whatsappToken[0]?.id}`, {"message":message});
+				await api.patch(`/whatsappTokens/${wpMain?.whatsappToken[0]?.id}`, whatsappData);
 			} else {
-				await api.post("/whatsappTokens", whatsappData);
+				await api.patch("/whatsappTokens", whatsappData);
 			}
 			toast.success(i18n.t("Url generada con exito"));
 			handleClose();
@@ -143,7 +157,10 @@ const WhatsAppTokenModal = ({ open, onClose, whatsAppId,wpMain }) => {
 										margin="dense"
 									/>
 								</div>
-							
+								<MessageInputMassive 
+									sendMessage={handleSaveWhatsApp}
+									messageBtn={"Guardar"}
+								/>
 							</DialogContent>
 							<DialogActions>
 								<Button
@@ -154,19 +171,7 @@ const WhatsAppTokenModal = ({ open, onClose, whatsAppId,wpMain }) => {
 								>
 									{i18n.t("whatsappModal.buttons.cancel")}
 								</Button>
-								<Button
-									
-									color="primary"
 								
-									variant="contained"
-									className={classes.btnWrapper}
-									onClick={handleSaveWhatsApp}
-								>
-									{whatsAppId
-										? i18n.t("whatsappModal.buttons.okEdit")
-										: i18n.t("whatsappModal.buttons.okAdd")}
-									
-								</Button>
 							</DialogActions>
 					
 			</Dialog>

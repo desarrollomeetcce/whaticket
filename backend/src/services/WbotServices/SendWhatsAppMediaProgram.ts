@@ -11,10 +11,10 @@ import FindOrCreateTicketService from "../TicketServices/FindOrCreateTicketServi
 import {verifyQueue,handleMessage} from "../WbotServices/wbotMessageListener";
 import CreateMessageService from "../MessageServices/CreateMessageService";
 interface Request {
-  media: Express.Multer.File;
-  wpId: string;
+  media: MessageMedia;
+  wpId: number;
   num: string;
-  msg: string;
+
 }
 
 const verifyContact = async (msgContact: WbotContact): Promise<Contact> => {
@@ -33,40 +33,32 @@ const verifyContact = async (msgContact: WbotContact): Promise<Contact> => {
 };
 
 
-const SendWhatsAppMediaMassive = async ({
+const SendWhatsAppMediaProgram = async ({
   media,
   wpId,
   num,
-  msg
 }: Request): Promise<WbotMessage> => {
   try {
-    //console.log("Pruebas");
-    //console.log(media);
-    //console.log(wpId);
-    //console.log(num);
-    //console.log(msg);
-    let wpid = Number(wpId);
-    const wbot = await GetTicketWbotByID(wpid);
+
+    const wbot = await GetTicketWbotByID(wpId);
    
     const msgContact = await wbot.getContactById(num+"@c.us");
     const contact = await verifyContact(msgContact);
     
     const ticket = await FindOrCreateTicketService(
       contact,
-      wpid,
+      wpId,
       1,
     );
 
-    console.log(media.path);
-    const newMedia = MessageMedia.fromFilePath(media.path);
-    let sentMessage;
-    const body = `\u200e${msg}`;
+   //console.log(media.path);
+   
 
     
       //console.log("Enviando multimedia");
-       sentMessage = await wbot.sendMessage(
+     let sentMessage = await wbot.sendMessage(
         `${num}@c.us`,
-        newMedia,
+        media,
         { sendAudioAsVoice: true }
       );
       await ticket.update({ lastMessage: media.filename });
@@ -94,4 +86,4 @@ const SendWhatsAppMediaMassive = async ({
   }
 };
 
-export default SendWhatsAppMediaMassive;
+export default SendWhatsAppMediaProgram;

@@ -24,6 +24,10 @@ class WhaticketApiToken extends Model<WhaticketApiToken> {
     @Column
     message: string;
 
+    @AllowNull(true)
+    @Column
+    imagePath: string;
+
     @ForeignKey(() => Whatsapp)
     wpid: number;
 

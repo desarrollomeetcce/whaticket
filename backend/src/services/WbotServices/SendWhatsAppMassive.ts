@@ -15,6 +15,7 @@ interface Request {
   wpId: number;
   num: string;
   msg: string;
+  imagePath?: string;
 }
 
 const verifyContact = async (msgContact: WbotContact): Promise<Contact> => {
@@ -36,7 +37,7 @@ const verifyContact = async (msgContact: WbotContact): Promise<Contact> => {
 const SendWhatsAppMassive = async ({
   wpId,
   num,
-  msg
+  msg,
 }: Request): Promise<WbotMessage> => {
   try {
     //console.log("Pruebas");
@@ -62,7 +63,7 @@ const SendWhatsAppMassive = async ({
     
     sentMessage = await wbot.sendMessage(`${num}@c.us`, body);
     await ticket.update({ lastMessage: body });
-    
+   
 
     const messageData = {
       id: sentMessage.id.id,
